@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - Ocean
   - Wood
+  - Cars
   layers:
   - Default
   - TransparentFX
