@@ -13,7 +13,7 @@ public class Wood : MonoBehaviour {
 	private float y = 0;
 	private bool rotate = true;
 	private GameObject objectFather;
-	private Vector3 startPosHit = new Vector3(1, 1, 1), endPosHit = new Vector3(1, 0.8f, 1);
+	private Vector3 startPosHit = new Vector3(1, 1, 1), endPosHit = new Vector3(1, 0.6f, 1);
 	private float journeyHit;
 	private float timeHit, timeStartHit;
 	private bool Sank = false, changePos = false;
@@ -36,20 +36,21 @@ public class Wood : MonoBehaviour {
 			timeHit = Time.time;
 			Sank = true;
 			changePos = !changePos;
+			Debug.Log("one time");
 		}
 	}
 	private void OnCollisionExit(Collision collision)
 	{
+		/*
 		if (collision.gameObject.tag == "Player")
-		{
+		{ 
 			timeHit = Time.time;
 			Sank = true;
-			changePos = !changePos;
-		}
+			changePos = !changePos; 
+		} */
 	}
 	private void OnTriggerEnter(Collider other)
 	{
-
 		if (other.gameObject.tag == "BarieEnd")
 		{
 			Destroy(gameObject);
@@ -95,20 +96,24 @@ public class Wood : MonoBehaviour {
 		if (changePos)
 		{
 			float timeScale = (Time.time - timeHit) * speedPosition;
-			float journeyLeght = timeStartHit / journeyHit;
+			float journeyLeght = timeScale / journeyHit;
 			if (Sank)
 			{		
-				transform.localScale = Vector3.Lerp(endPosHit, startPosHit, journeyLeght);
-				if (transform.localScale == startPosHit)
+				transform.localScale = Vector3.Lerp(startPosHit, endPosHit, journeyLeght);
+				if (transform.localScale == endPosHit)
 				{
+					Debug.Log("false");
 					Sank = false;
+					timeHit = Time.time;
 				}
 			}
 			else
 			{
-				transform.localScale =  Vector3.Lerp(startPosHit, endPosHit, journeyLeght);
-				if (transform.localScale == endPosHit)
+				Debug.Log(endPosHit + " " + startPosHit);
+				transform.localScale =  Vector3.Lerp(endPosHit, startPosHit, journeyLeght);
+				if (transform.localScale == startPosHit)
 				{
+					Debug.Log("true");
 					changePos = false;
 				}
 			}

@@ -53,7 +53,7 @@ public class SetupEnviroment : MonoBehaviour {
 			case TWOWAYSTREET:
 				return ((previousStrip == ONEWAYSTREET) || (previousStrip == TWOWAYSTREET)) ? TWOWAYSTREET : ONEWAYSTREET;
 			case ONEWAYSTREET:
-				return ((previousStrip == ONEWAYSTREET)) ? TWOWAYSTREET : ONEWAYSTREET;
+				return ((previousStrip == ONEWAYSTREET) || (previousStrip == TWOWAYSTREET)) ? TWOWAYSTREET : ONEWAYSTREET;
 			default:
 				return currentStrip;
 		}
