@@ -13,14 +13,16 @@ public class CameraMovement : MonoBehaviour {
 
 	private void FixedUpdate()
 	{
-	
-		if((Player.transform.position.x - transform.position.x) > (maxDistance + 9f))
+		transform.position += new Vector3(speed * Time.deltaTime, 0, 0);
+
+		if ((Player.transform.position.x - transform.position.x) > (maxDistance + 9f))
 		{
+
 			transform.position += new Vector3(speedPlayer * Time.deltaTime, 0, 0);
-		}else
-		{
-			transform.position += new Vector3(speed * Time.deltaTime, 0, 0);
 		}
+		
+			
+		
 	}
 	// Update is called once per frame
 	void Update () {

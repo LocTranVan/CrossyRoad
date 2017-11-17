@@ -27,43 +27,35 @@ public class Wood : MonoBehaviour {
 		this.speed = speed;
 		this.objectFather = objectFather;
 
-		//speed = 3f;
 	}
-	private void OnCollisionEnter(Collision collision)
-	{
-		if (collision.gameObject.tag == "Player")
-		{
-			timeHit = Time.time;
-			Sank = true;
-			changePos = !changePos;
-			Debug.Log("one time");
-		}
-	}
-	private void OnCollisionExit(Collision collision)
-	{
-		/*
-		if (collision.gameObject.tag == "Player")
-		{ 
-			timeHit = Time.time;
-			Sank = true;
-			changePos = !changePos; 
-		} */
-	}
+	
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.gameObject.tag == "BarieEnd")
 		{
 			Destroy(gameObject);
 		}
-		
+
+		tranformWhenHit(other);
 
 	}
 	private void OnTriggerExit(Collider other)
 	{
+		tranformWhenHit(other);
+
 		if (other.gameObject.tag == ("Ocean"))
 		{
 			speed = (fastSpeed) ? (speed / 3) : (speed * 3);
 			fastSpeed = !fastSpeed;
+		}
+	}
+	private void tranformWhenHit(Collider target)
+	{
+		if (target.gameObject.tag == "Player")
+		{
+			timeHit = Time.time;
+			Sank = true;
+			changePos = !changePos;
 		}
 	}
 	private void AnimateHit()
@@ -102,18 +94,15 @@ public class Wood : MonoBehaviour {
 				transform.localScale = Vector3.Lerp(startPosHit, endPosHit, journeyLeght);
 				if (transform.localScale == endPosHit)
 				{
-					Debug.Log("false");
 					Sank = false;
 					timeHit = Time.time;
 				}
 			}
 			else
 			{
-				Debug.Log(endPosHit + " " + startPosHit);
 				transform.localScale =  Vector3.Lerp(endPosHit, startPosHit, journeyLeght);
 				if (transform.localScale == startPosHit)
 				{
-					Debug.Log("true");
 					changePos = false;
 				}
 			}

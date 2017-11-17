@@ -108,10 +108,18 @@ public class Character : MonoBehaviour
 	{
 		bool check = (!Physics.Linecast(startMark, endMark, Tree)) ? true : false;
 		//Debug.DrawLine(startMark, endMark, Color.red);
+		Debug.Log(endMarker + " " + Mathf.Round(endMarker.z / 8));
+		//if(endMarker.x % 9 != 0)
+			endMarker.x = Mathf.Round(endMarker.x / 9) * 9;
+		//if (endMarker.z % 8 != 0)
+			endMarker.z =   Mathf.Round(endMarker.z / 8) * 8;
+
+		Debug.Log(endMarker);
+
+
 		if (check)
 		{
 			anim.Play("Jump");
-			//		IsGround = false;
 			jump = false;
 		}
 		return check;
@@ -180,11 +188,6 @@ public class Character : MonoBehaviour
 		{
 			if (jump)
 				Move();
-			else if (transform.position.x % 9 != 0 || transform.position.z % 8 != 0)
-			{
-
-			}
-
 
 			if (preesKey)
 			{

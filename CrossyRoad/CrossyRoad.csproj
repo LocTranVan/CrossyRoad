@@ -85,6 +85,7 @@
     <Compile Include="Assets\_Scripts\Ocean.cs" />
     <Compile Include="Assets\_Scripts\SetupEnviroment.cs" />
     <Compile Include="Assets\_Scripts\SpawCar.cs" />
+    <Compile Include="Assets\_Scripts\Test.cs" />
     <Compile Include="Assets\_Scripts\Train.cs" />
     <Compile Include="Assets\_Scripts\Tree.cs" />
     <Compile Include="Assets\_Scripts\Wood.cs" />
