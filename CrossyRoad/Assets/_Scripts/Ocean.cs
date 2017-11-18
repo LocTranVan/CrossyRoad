@@ -5,6 +5,7 @@ using UnityEngine;
 public class Ocean : MonoBehaviour {
 	// Use this for initialization
 	public GameObject[] Stuff;
+	public GameObject PracticleSystem;
 	private GameObject vatTroi;
 	[SerializeField]
 	private GameObject[] positionSpaw;
@@ -54,25 +55,28 @@ public class Ocean : MonoBehaviour {
 	}
 	private void OnTriggerEnter(Collider other)
 	{
-		if(other.gameObject.tag == "Wood")
-		{
-			//spaw = !spaw;
-			//Debug.Log("hit");
-			if (numberWood >= 2)
-			{
-				numberWood--;
-			}
 		
+		if (other.gameObject.tag == "Player")
+		{
+			//other.gameObject.GetComponent<Character>().isDead = true;
+			other.gameObject.GetComponentInParent<Character>().isDead = true;
+
+			Vector3 position = PracticleSystem.transform.position;
+			position.z = other.gameObject.transform.position.z;
+			PracticleSystem.transform.position = position;
+
+			PracticleSystem.SetActive(true);
+			Debug.Log("hit Player");
 		}
+		
 	}
 	private IEnumerator SpawStuff(float waitTime)
 	{
 		while (true)
 		{
 			yield return new WaitForSeconds(waitTime);
-			if (numberWood < 2)
+			if (numberWood < 3)
 			{ 
-
 				GameObject Wood = Instantiate(vatTroi, positionSpaw[indexStartCar].transform.position, Quaternion.identity);
 				float direction = (indexStartCar == 0) ? 1 : -1;
 				Wood.GetComponent<Wood>().init(speed * direction, gameObject);
@@ -80,5 +84,10 @@ public class Ocean : MonoBehaviour {
 			}
 		}
 
+	}
+
+	public void setNumberWoodInOcean()
+	{
+		numberWood--;
 	}
 }

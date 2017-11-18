@@ -23,10 +23,23 @@ public class Car : MonoBehaviour {
 	{
 	
 	}
-	private void OnTriggerEnter(Collider other)
+	private void OnCollisionEnter(Collision collision)
 	{
-		
+		if (collision.gameObject.tag == "Player")
+		{
+			//rigidbody.isKinematic = true;
+			objectFather.GetComponent<SpawCar>().effectBlood(collision.gameObject.transform.position);
+
+		}
+
+			if (collision.gameObject.tag == "Ground")
+		{
+			rigidbody.useGravity = false;
+			rigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionX;
+		}
+		 
 	}
+
 	private void OnTriggerExit(Collider other)
 	{
 		if (other.gameObject.tag == "BarieEnd")
@@ -39,7 +52,7 @@ public class Car : MonoBehaviour {
 	}
 	void FixedUpdate()
 	{
-		rigidbody.velocity = new Vector3(rigidbody.velocity.x, rigidbody.velocity.y, -speed);
+		rigidbody.velocity = new Vector3(0, 0, -speed);
 		if(objectFather == null)
 		{
 			Destroy(gameObject);

@@ -8,6 +8,7 @@ public class SpawCar : MonoBehaviour {
 	private const int TAXI = 0, STRUCT = 1, CAR = 2;
 	private IEnumerator coroutine;
 	private int indexStartCar, indexEndCar;
+	public GameObject PracticleSystem;
 
 	private int numberCars = 0;
 	private float speed;
@@ -27,7 +28,16 @@ public class SpawCar : MonoBehaviour {
 		coroutine = SpawACar(waitTime);
 		StartCoroutine(coroutine);
 	}
+
+	public void effectBlood(Vector3 pPlayer)
+	{
+		Vector3 position = PracticleSystem.transform.position;
+		position.z = pPlayer.z;
 	
+		PracticleSystem.transform.position = position;
+
+		PracticleSystem.SetActive(true);
+	}
 	// Update is called once per frame
 	void Update () {
 		

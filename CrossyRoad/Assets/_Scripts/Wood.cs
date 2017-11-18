@@ -33,6 +33,7 @@ public class Wood : MonoBehaviour {
 	{
 		if (other.gameObject.tag == "BarieEnd")
 		{
+			objectFather.GetComponent<Ocean>().setNumberWoodInOcean();
 			Destroy(gameObject);
 		}
 
@@ -43,7 +44,7 @@ public class Wood : MonoBehaviour {
 	{
 		tranformWhenHit(other);
 
-		if (other.gameObject.tag == ("Ocean"))
+		if (other.gameObject.name.Contains("WaterFall"))
 		{
 			speed = (fastSpeed) ? (speed / 3) : (speed * 3);
 			fastSpeed = !fastSpeed;
