@@ -59,7 +59,7 @@ public class Ocean : MonoBehaviour {
 		if (other.gameObject.tag == "Player")
 		{
 			//other.gameObject.GetComponent<Character>().isDead = true;
-			other.gameObject.GetComponentInParent<Character>().isDead = true;
+			other.gameObject.GetComponentInParent<Character>().TakeDamage();
 
 			Vector3 position = PracticleSystem.transform.position;
 			position.z = other.gameObject.transform.position.z;

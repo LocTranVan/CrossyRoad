@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Train : MonoBehaviour {
 	public GameObject[] spawPositionCar;
-	public GameObject trains;
+	public GameObject trains, PracticleSystem;
 	public float timeWait;
 	private int indexEndTrain, indexStartTrain;
 	private float speed;
@@ -44,6 +44,15 @@ public class Train : MonoBehaviour {
 			float direction = (indexStartTrain == 0) ? 1 : -1;
 			train.GetComponent<Car>().init(speed * direction, gameObject);
 		}
+	}
+	public void effectBlood(Vector3 pPlayer)
+	{
+		Vector3 position = PracticleSystem.transform.position;
+		position.z = pPlayer.z;
+
+		PracticleSystem.transform.position = position;
+
+		PracticleSystem.SetActive(true);
 	}
 	private void setUpForTrain()
 	{

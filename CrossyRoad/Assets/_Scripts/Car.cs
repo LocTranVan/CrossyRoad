@@ -28,8 +28,10 @@ public class Car : MonoBehaviour {
 		if (collision.gameObject.tag == "Player")
 		{
 			//rigidbody.isKinematic = true;
-			objectFather.GetComponent<SpawCar>().effectBlood(collision.gameObject.transform.position);
-
+			if(objectFather.GetComponent<SpawCar>() != null)
+				objectFather.GetComponent<SpawCar>().effectBlood(collision.gameObject.transform.position);
+			else
+				objectFather.GetComponent<Train>().effectBlood(collision.gameObject.transform.position);
 		}
 
 			if (collision.gameObject.tag == "Ground")

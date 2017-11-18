@@ -101,6 +101,7 @@ public class Character : MonoBehaviour
 
 	private void setUpForShrug()
 	{
+		Debug.Log("Set Up For Shrug");
 		startTimeScale = Time.time;
 		shrug = !shrug;
 	}
@@ -148,9 +149,6 @@ public class Character : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		//Debug.Log(other.gameObject);
-	
-
 		if (other.gameObject.tag == "Cars")
 		{
 			Vector3 position = transform.position;
@@ -161,16 +159,16 @@ public class Character : MonoBehaviour
 			TakeDamage();
 		}
 	}
-	private void TakeDamage()
+	public void TakeDamage()
 	{
 		hitTopSide = Physics.Linecast(transform.position, transform.position + disJumpVertical * 1 / 2, Cars);
 		hitLeftSide = Physics.Linecast(transform.position, transform.position - disJumpHorizontal * 1 / 2, Cars);
 		hitRightSide = Physics.Linecast(transform.position, transform.position + disJumpHorizontal * 1 / 2, Cars);
-		
-		
+
 		Physics.IgnoreLayerCollision(9, 10);
 		Physics.IgnoreLayerCollision(8, 10);
 		rigidbody.velocity = Vector3.zero;
+
 		Debug.Log("Hit car");
 		IsDead = true;
 		timeScale = Time.time;
@@ -198,6 +196,10 @@ public class Character : MonoBehaviour
 				//	Debug.Log(rigidbody.velocity);
 
 			}
+			if(endScale == endScaleForWard || endScale == endScaleUpSide)
+			{
+				gameManager.intance.EndGame();
+			}
 
 		}
 		else
@@ -218,10 +220,15 @@ public class Character : MonoBehaviour
 			}
 			if (preesKey)
 			{
+			//	Debug.Log("Presskey");
+
 				float timeS = (Time.time - startTimeScale) * speed2;
 				float fracJourney = timeS / journeyJump;
 				if (shrug)
+				{
 					transform.localScale = Vector3.Lerp(endJump, startJump, acc.Evaluate(fracJourney));
+				//	Debug.Log("Shrug");
+				}
 				else
 				{
 					transform.localScale = Vector3.Lerp(startJump, endJump, acc.Evaluate(fracJourney));
