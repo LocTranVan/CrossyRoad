@@ -22,7 +22,7 @@ public class SpawCar : MonoBehaviour {
 
 		spawPositionCar[indexEndCar].SetActive(true);
 
-		speed = Random.Range(20f, 40f);
+		speed = Random.Range(30f, 50f);
 		float waitTime = Random.Range(2.0f, 4.0f);
 
 		coroutine = SpawACar(waitTime);
@@ -46,18 +46,19 @@ public class SpawCar : MonoBehaviour {
 	{
 		while (true)
 		{
-			yield return new WaitForSeconds(waitTime);
+		
 			if (numberCars <= 3)
 			{
-				GameObject Car = Instantiate(Cars[Random.Range(0, 3)], spawPositionCar[indexStartCar].transform.position, Quaternion.identity);
+				GameObject Car = Instantiate(Cars[Random.Range(0, Cars.Length)], spawPositionCar[indexStartCar].transform.position, Quaternion.identity);
 
 				float direction = (indexStartCar == 0) ? 1 : -1;
 				Car.GetComponent<Car>().init(speed * direction, gameObject);
 				numberCars++;
 			}
-			if(numberCars > 3)
+			yield return new WaitForSeconds(waitTime);
+			if (numberCars > 3)
 			{
-				yield return new WaitForSeconds(waitTime);
+				yield return new WaitForSeconds(waitTime );
 				numberCars = 0;
 			}
 		}

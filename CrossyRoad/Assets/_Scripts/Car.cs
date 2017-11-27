@@ -60,4 +60,8 @@ public class Car : MonoBehaviour {
 			Destroy(gameObject);
 		}
 	}
+	public float getSpeed()
+	{
+		return speed;
+	}
 }

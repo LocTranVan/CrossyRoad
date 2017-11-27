@@ -118,6 +118,33 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
+    <Reference Include="DemiLib">
+      <HintPath>Assets\Demigiant\Demigiant\DemiLib\Core\DemiLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween43">
+      <HintPath>Assets\Demigiant\Demigiant\DOTween\DOTween43.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenEditor">
+      <HintPath>Assets\Demigiant\Demigiant\DOTween\Editor\DOTweenEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween50">
+      <HintPath>Assets\Demigiant\Demigiant\DOTween\DOTween50.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenProEditor">
+      <HintPath>Assets\Demigiant\Demigiant\DOTweenPro\Editor\DOTweenProEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets\Demigiant\Demigiant\DOTween\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenPro">
+      <HintPath>Assets\Demigiant\Demigiant\DOTweenPro\DOTweenPro.dll</HintPath>
+    </Reference>
+    <Reference Include="DemiEditor">
+      <HintPath>Assets\Demigiant\Demigiant\DemiLib\Core\Editor\DemiEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween46">
+      <HintPath>Assets\Demigiant\Demigiant\DOTween\DOTween46.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="CrossyRoad.csproj">
@@ -126,6 +153,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Demigiant\Demigiant\DOTweenPro\Editor\DOTweenAnimationInspector.cs" />
     <Compile Include="Assets\PostProcessing\Editor\Attributes\PostProcessingModelEditorAttribute.cs" />
     <Compile Include="Assets\PostProcessing\Editor\Models\AmbientOcclusionModelEditor.cs" />
     <Compile Include="Assets\PostProcessing\Editor\Models\AntialiasingModelEditor.cs" />
@@ -162,6 +190,18 @@
     <Compile Include="Assets\PostProcessing\Editor\Utils\ReflectionUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Demigiant\Demigiant\DOTween\DOTween.XML" />
+    <None Include="Assets\Demigiant\Demigiant\DOTween\DOTween43.xml" />
+    <None Include="Assets\Demigiant\Demigiant\DOTween\DOTween46.xml" />
+    <None Include="Assets\Demigiant\Demigiant\DOTween\DOTween50.xml" />
+    <None Include="Assets\Demigiant\Demigiant\DOTween\Editor\DOTweenEditor.XML" />
+    <None Include="Assets\Demigiant\Demigiant\DOTween\readme.txt" />
+    <None Include="Assets\Demigiant\Demigiant\DOTweenPro\DOTweenPro.XML" />
+    <None Include="Assets\Demigiant\Demigiant\DOTweenPro\Editor\DOTweenProEditor.XML" />
+    <None Include="Assets\Demigiant\Demigiant\DOTweenPro\readme.txt" />
+    <None Include="Assets\Demigiant\Demigiant\DemiLib\Core\DemiLib.xml" />
+    <None Include="Assets\Demigiant\Demigiant\DemiLib\Core\Editor\DemiEditor.xml" />
+    <None Include="Assets\Demigiant\Demigiant\readme_DOTweenPro.txt" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\ParadeRender.shader" />

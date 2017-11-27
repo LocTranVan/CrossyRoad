@@ -24,7 +24,8 @@ GameObject:
   - component: {fileID: 114044472439199704}
   - component: {fileID: 65459016789504228}
   - component: {fileID: 54194141969397152}
-  m_Layer: 9
+  - component: {fileID: 114953841402866890}
+  m_Layer: 11
   m_Name: woodShort
   m_TagString: Wood
   m_Icon: {fileID: 0}
@@ -122,3 +123,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedPosition: 2
+--- !u!114 &114953841402866890
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1411542888684698}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: defb9aaafb984ca4297405795c21d621, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Coin: {fileID: 1267810531580530, guid: 64671b68115512d489adcc2145d45a11, type: 2}
+  perCentSpawCoin: 100
+  intdextLeght: 1
+  offset: 8
+  positionCenter: {x: 0, y: 4, z: 0}

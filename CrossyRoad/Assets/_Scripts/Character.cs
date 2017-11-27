@@ -19,11 +19,11 @@ public class Character : MonoBehaviour
 	private Animation anim;
 	private MeshRenderer mesh;
 	private float number = 0;
-	private bool shrug = false, IsDead, IsGround;
+	private bool shrug = false, IsDead = false, IsGround, IsPause = true;
 	//private static Character intance;
 	private GameObject carHit;
-
-
+	public GameObject snowFalling;
+	private Vector3 maxPosition = Vector3.zero;
 	public bool isDead
 	{
 		get
@@ -33,6 +33,17 @@ public class Character : MonoBehaviour
 		set
 		{
 			this.IsDead = value;
+		}
+	}
+	public bool isPause
+	{
+		get
+		{
+			return IsPause;
+		}
+		set
+		{
+			this.IsPause = value;
 		}
 	}
 
@@ -46,6 +57,7 @@ public class Character : MonoBehaviour
 
 	private bool preesKey = false;
 	private Vector3 velocityHit;
+
 	void Start()
 	{
 		journeyLength = Vector3.Distance(Vector3.zero, disJumpHorizontal);
@@ -55,6 +67,16 @@ public class Character : MonoBehaviour
 		mesh = player.GetComponent<MeshRenderer>();
 		rigidbody = GetComponent<Rigidbody>();
 		anim = player.GetComponent<Animation>();
+
+		if(gameManager.intance.getCharacter() != null)
+		{
+			GameObject currentCharater = gameManager.intance.getCharacter();
+			gameObject.GetComponentInChildren<MeshFilter>().mesh = currentCharater.GetComponentInChildren<MeshFilter>().mesh;
+			gameObject.GetComponentInChildren<Renderer>().material = currentCharater.GetComponentInChildren<Renderer>().material;
+		}
+		if (gameManager.intance.GetMaterial() != null)
+			snowFalling.SetActive(true);
+		else snowFalling.SetActive(false);
 	}
 	void Update()
 	{
@@ -67,6 +89,7 @@ public class Character : MonoBehaviour
 			preesKey = !preesKey;
 		}
 	}
+
 	private void HandleInput()
 	{
 
@@ -76,6 +99,11 @@ public class Character : MonoBehaviour
 			endMarker = startMarker + disJumpVertical;
 
 			jump = checkCounldForJump(startMarker, endMarker);
+			if (jump && endMarker.x > maxPosition.x)
+			{
+				gameManager.intance.setScore();
+				maxPosition = endMarker;
+			}
 		}
 		if (Input.GetKeyUp(KeyCode.DownArrow))
 		{
@@ -101,7 +129,6 @@ public class Character : MonoBehaviour
 
 	private void setUpForShrug()
 	{
-		Debug.Log("Set Up For Shrug");
 		startTimeScale = Time.time;
 		shrug = !shrug;
 	}
@@ -152,11 +179,16 @@ public class Character : MonoBehaviour
 		if (other.gameObject.tag == "Cars")
 		{
 			Vector3 position = transform.position;
-			Debug.Log("hit car");
+			//	Debug.Log("hit car");
 			carHit = other.gameObject;
 
 			velocityHit = new Vector3(0, 0, -carHit.transform.position.z + position.z);
 			TakeDamage();
+		}
+		if (other.gameObject.tag == "Coin")
+		{
+			other.gameObject.GetComponent<Coin>().prepareDisapear();
+			gameManager.intance.setCoin();
 		}
 	}
 	public void TakeDamage()
@@ -169,7 +201,7 @@ public class Character : MonoBehaviour
 		Physics.IgnoreLayerCollision(8, 10);
 		rigidbody.velocity = Vector3.zero;
 
-		Debug.Log("Hit car");
+
 		IsDead = true;
 		timeScale = Time.time;
 	}
@@ -179,60 +211,64 @@ public class Character : MonoBehaviour
 		//	Debug.DrawLine(transform.position, transform.position - disJumpHorizontal * 1 / 2, Color.red);
 		//	Debug.DrawLine(transform.position, transform.position + disJumpHorizontal * 1 / 2, Color.red);
 		//	TakeDamage();
-		if (IsDead)
+		if (!isPause)
 		{
-			//rigidbody.isKinematic = true;
-			float timeS = (Time.time - timeScale) * 7;
-			float fracJourney = timeS / journeyScale;
-			Vector3 endScale = (hitTopSide) ? endScaleForWard : endScaleUpSide;
-			
-			transform.localScale = Vector3.Lerp(new Vector3(1, 1, 1), endScale, fracJourney);
-			if (endScale == endScaleForWard)
+			if (IsDead)
 			{
 				//rigidbody.isKinematic = true;
-				//rigidbody.useGravity = false;
-				if(carHit != null)
-					transform.position = new Vector3(transform.position.x, transform.position.y,  (carHit.transform.position + velocityHit).z);
-				//	Debug.Log(rigidbody.velocity);
+				float timeS = (Time.time - timeScale) * 7;
+				float fracJourney = timeS / journeyScale;
+				Vector3 endScale = (hitTopSide) ? endScaleForWard : endScaleUpSide;
 
-			}
-			if(endScale == endScaleForWard || endScale == endScaleUpSide)
-			{
-				gameManager.intance.EndGame();
-			}
+				transform.localScale = Vector3.Lerp(new Vector3(1, 1, 1), endScale, fracJourney);
+				if (endScale == endScaleForWard)
+				{
+					//rigidbody.isKinematic = true;
+					//rigidbody.useGravity = false;
+					if (carHit != null)
+						transform.position = new Vector3(transform.position.x, transform.position.y, (carHit.transform.position + velocityHit).z);
+					//	Debug.Log(rigidbody.velocity);
 
-		}
-		else
-		{
-			if (jump)
-			{
-				Move();
-			
-				rigidbody.isKinematic = true;
+				}
+				if (endScale == endScaleForWard || endScale == endScaleUpSide)
+				{
+					gameManager.intance.EndGame();
+				//	isPause = true;
+				}
 
 			}
 			else
 			{
-				rigidbody.isKinematic = false;
-				Vector3 position = transform.position;
-				position.y -= weightPlayer * Time.deltaTime;
-				transform.position = position;
-			}
-			if (preesKey)
-			{
-			//	Debug.Log("Presskey");
-
-				float timeS = (Time.time - startTimeScale) * speed2;
-				float fracJourney = timeS / journeyJump;
-				if (shrug)
+				if (jump)
 				{
-					transform.localScale = Vector3.Lerp(endJump, startJump, acc.Evaluate(fracJourney));
-				//	Debug.Log("Shrug");
+					Move();
+
+					rigidbody.isKinematic = true;
+
 				}
 				else
 				{
-					transform.localScale = Vector3.Lerp(startJump, endJump, acc.Evaluate(fracJourney));
-					preesKey = (transform.localScale == endJump) ? false : true;
+					rigidbody.isKinematic = false;
+					Vector3 position = transform.position;
+					position.y -= weightPlayer * Time.deltaTime;
+					transform.position = position;
+				}
+				if (preesKey)
+				{
+					//	Debug.Log("Presskey");
+
+					float timeS = (Time.time - startTimeScale) * speed2;
+					float fracJourney = timeS / journeyJump;
+					if (shrug)
+					{
+						transform.localScale = Vector3.Lerp(endJump, startJump, acc.Evaluate(fracJourney));
+						//	Debug.Log("Shrug");
+					}
+					else
+					{
+						transform.localScale = Vector3.Lerp(startJump, endJump, acc.Evaluate(fracJourney));
+						preesKey = (transform.localScale == endJump) ? false : true;
+					}
 				}
 			}
 		}

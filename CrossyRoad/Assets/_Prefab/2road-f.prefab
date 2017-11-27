@@ -72,6 +72,7 @@ GameObject:
   - component: {fileID: 23155967884980102}
   - component: {fileID: 65673006001381258}
   - component: {fileID: 114508913519171810}
+  - component: {fileID: 114297496347129882}
   m_Layer: 0
   m_Name: 2road-f
   m_TagString: Untagged
@@ -131,7 +132,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1805806117164732}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -35.4}
+  m_LocalPosition: {x: 0, y: 3, z: -35.4}
   m_LocalScale: {x: 1, y: 1, z: 2}
   m_Children: []
   m_Father: {fileID: 4220222174775698}
@@ -175,7 +176,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1006266199371730}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.5, z: 49.08}
+  m_LocalPosition: {x: 0, y: 3, z: 49.08}
   m_LocalScale: {x: 1, y: 1, z: 2}
   m_Children: []
   m_Father: {fileID: 4220222174775698}
@@ -293,6 +294,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3, y: 40, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114297496347129882
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1386550184089110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: defb9aaafb984ca4297405795c21d621, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Coin: {fileID: 1267810531580530, guid: 64671b68115512d489adcc2145d45a11, type: 2}
+  perCentSpawCoin: 40
+  intdextLeght: 4
+  offset: 8
+  positionCenter: {x: 0, y: 2, z: 0}
 --- !u!114 &114508913519171810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -311,6 +328,9 @@ MonoBehaviour:
   - {fileID: 1068895372436766, guid: ea29bb1a980f822418c25fb2746c9e01, type: 2}
   - {fileID: 1348348352539114, guid: 25ff7766cdb2822409efcd669f078b1f, type: 2}
   - {fileID: 1981160196804674, guid: b5f2f6b5a632cdb43b7e639aab4bf468, type: 2}
+  - {fileID: 1700932402847076, guid: 58ca5bd64c0813941b9bc9b28b29b47b, type: 2}
+  - {fileID: 1759813936620934, guid: 82ab940c4e3ce664180ce8d96d2e160f, type: 2}
+  - {fileID: 1533690876827516, guid: 84cbf7c9291939a49a30cb9bc2256495, type: 2}
   PracticleSystem: {fileID: 1334589342258032}
 --- !u!198 &198327700736807636
 ParticleSystem:

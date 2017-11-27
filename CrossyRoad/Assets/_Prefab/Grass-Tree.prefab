@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23671840214308114}
   - component: {fileID: 114607923680035254}
   - component: {fileID: 65720590446723278}
+  - component: {fileID: 114075744766111264}
   m_Layer: 0
   m_Name: Grass-Tree
   m_TagString: Ground
@@ -181,6 +182,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 9, y: 2, z: 108}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &114075744766111264
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1340038186930378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: defb9aaafb984ca4297405795c21d621, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Coin: {fileID: 1267810531580530, guid: 64671b68115512d489adcc2145d45a11, type: 2}
+  perCentSpawCoin: 20
+  intdextLeght: 4
+  offset: 8
+  positionCenter: {x: 0, y: 2, z: 0}
 --- !u!114 &114607923680035254
 MonoBehaviour:
   m_ObjectHideFlags: 1

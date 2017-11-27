@@ -9,6 +9,9 @@ TagManager:
   - Ocean
   - Wood
   - Cars
+  - Lion
+  - Coin
+  - YardPet
   layers:
   - Default
   - TransparentFX
@@ -21,11 +24,11 @@ TagManager:
   - Tree
   - Car
   - Player
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Wood
+  - Lion
+  - Ocean
+  - Beo
+  - Coin
   - 
   - 
   - 

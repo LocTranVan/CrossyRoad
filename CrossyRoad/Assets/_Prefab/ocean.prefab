@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4425615726408858}
   - component: {fileID: 65515352546641730}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: SpawPositionStart
   m_TagString: BarieEnd
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4300114104871400}
   - component: {fileID: 65038548536363396}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: SpawPositionEnd
   m_TagString: BarieEnd
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 23871751751088566}
   - component: {fileID: 65429590962302814}
   - component: {fileID: 114002470327786784}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: ocean
   m_TagString: Ocean
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4004963679027478}
   - component: {fileID: 65990715439374852}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: WaterFall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4506604246366772}
   - component: {fileID: 65631811132582542}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: WaterFall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 4636307005479594}
   - component: {fileID: 198421940049010834}
   - component: {fileID: 199367093655467130}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}

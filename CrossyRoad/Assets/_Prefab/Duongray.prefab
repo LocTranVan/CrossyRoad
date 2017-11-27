@@ -138,6 +138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4137823949760464}
   - component: {fileID: 114566916824607306}
+  - component: {fileID: 114245146440967856}
   m_Layer: 0
   m_Name: Duongray
   m_TagString: Untagged
@@ -668,6 +669,22 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114245146440967856
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1760321589777552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: defb9aaafb984ca4297405795c21d621, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Coin: {fileID: 1267810531580530, guid: 64671b68115512d489adcc2145d45a11, type: 2}
+  perCentSpawCoin: 40
+  intdextLeght: 4
+  offset: 8
+  positionCenter: {x: 0, y: 2, z: 0}
 --- !u!114 &114566916824607306
 MonoBehaviour:
   m_ObjectHideFlags: 1

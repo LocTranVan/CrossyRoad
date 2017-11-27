@@ -5,7 +5,9 @@ using UnityEngine;
 public class SetupEnviroment : MonoBehaviour {
 
 	public GameObject[] strips;
-	public Transform camera;
+	public Transform camera, Player;
+	public GameObject Eagle;
+
 	//private GameObject[] allStrips;
 	private List<GameObject> allStrips;
 	public float offset;
@@ -15,9 +17,13 @@ public class SetupEnviroment : MonoBehaviour {
 	private int previousStrip = GRASSDARK;
 	private Vector3 positionPreviousStrip;
 	public float maxDistance = 89f;
+	private bool sPawdedEagle;
 	// Use this for initialization
 	private void Awake()
 	{
+		
+	}
+	void Start () {
 		allStrips = new List<GameObject>();
 		int k = 0;
 		do
@@ -33,13 +39,20 @@ public class SetupEnviroment : MonoBehaviour {
 		} while (k < 7);
 
 		int tam = 8;
-		while(tam > 0)
+		while (tam > 0)
 		{
 			spaw();
 			tam--;
 		}
 	}
-	void Start () {
+	public void spawEagle()
+	{
+		if (!sPawdedEagle)
+		{
+			Instantiate(Eagle, Player.position + new Vector3(90, 13, 0), Quaternion.identity);
+			sPawdedEagle = true;
+			Player.gameObject.GetComponent<Character>().isPause = true;
+		}
 	}
 	private int getStrip()
 	{

@@ -76,19 +76,52 @@
     <Reference Include="UnityEngine.HoloLens">
       <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
     </Reference>
+    <Reference Include="DemiLib">
+      <HintPath>Assets\Demigiant\Demigiant\DemiLib\Core\DemiLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets\Demigiant\Demigiant\DOTween\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween43">
+      <HintPath>Assets\Demigiant\Demigiant\DOTween\DOTween43.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween46">
+      <HintPath>Assets\Demigiant\Demigiant\DOTween\DOTween46.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween50">
+      <HintPath>Assets\Demigiant\Demigiant\DOTween\DOTween50.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenPro">
+      <HintPath>Assets\Demigiant\Demigiant\DOTweenPro\DOTweenPro.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\_Scripts\CameraMovement.cs" />
     <Compile Include="Assets\_Scripts\Car.cs" />
     <Compile Include="Assets\_Scripts\Character.cs" />
+    <Compile Include="Assets\_Scripts\Coin.cs" />
+    <Compile Include="Assets\_Scripts\Eagle.cs" />
+    <Compile Include="Assets\_Scripts\Enemy.cs" />
     <Compile Include="Assets\_Scripts\gameManager.cs" />
     <Compile Include="Assets\_Scripts\Grass.cs" />
     <Compile Include="Assets\_Scripts\Ocean.cs" />
+    <Compile Include="Assets\_Scripts\PathFinding\Grid.cs" />
+    <Compile Include="Assets\_Scripts\PathFinding\Heap.cs" />
+    <Compile Include="Assets\_Scripts\PathFinding\Node.cs" />
+    <Compile Include="Assets\_Scripts\PathFinding\Pathfinding.cs" />
+    <Compile Include="Assets\_Scripts\PathFinding\PathRequestManager.cs" />
+    <Compile Include="Assets\_Scripts\PathFinding\Unit.cs" />
     <Compile Include="Assets\_Scripts\SetupEnviroment.cs" />
     <Compile Include="Assets\_Scripts\SpawCar.cs" />
+    <Compile Include="Assets\_Scripts\SpawCoin.cs" />
     <Compile Include="Assets\_Scripts\Train.cs" />
     <Compile Include="Assets\_Scripts\Tree.cs" />
+    <Compile Include="Assets\_Scripts\UI\ControllScrollView.cs" />
+    <Compile Include="Assets\_Scripts\UI\ScoreUI.cs" />
+    <Compile Include="Assets\_Scripts\UI\test.cs" />
+    <Compile Include="Assets\_Scripts\UI\UITabStartGame.cs" />
     <Compile Include="Assets\_Scripts\Wood.cs" />
+    <Compile Include="Assets\Demigiant\Demigiant\DOTweenPro\DOTweenAnimation.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\TrackballAttribute.cs" />
@@ -136,6 +169,18 @@
     <Compile Include="Assets\PostProcessing\Utilities\CustomMotionTexture\ExampleWheelController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Demigiant\Demigiant\DOTween\DOTween.XML" />
+    <None Include="Assets\Demigiant\Demigiant\DOTween\DOTween43.xml" />
+    <None Include="Assets\Demigiant\Demigiant\DOTween\DOTween46.xml" />
+    <None Include="Assets\Demigiant\Demigiant\DOTween\DOTween50.xml" />
+    <None Include="Assets\Demigiant\Demigiant\DOTween\Editor\DOTweenEditor.XML" />
+    <None Include="Assets\Demigiant\Demigiant\DOTween\readme.txt" />
+    <None Include="Assets\Demigiant\Demigiant\DOTweenPro\DOTweenPro.XML" />
+    <None Include="Assets\Demigiant\Demigiant\DOTweenPro\Editor\DOTweenProEditor.XML" />
+    <None Include="Assets\Demigiant\Demigiant\DOTweenPro\readme.txt" />
+    <None Include="Assets\Demigiant\Demigiant\DemiLib\Core\DemiLib.xml" />
+    <None Include="Assets\Demigiant\Demigiant\DemiLib\Core\Editor\DemiEditor.xml" />
+    <None Include="Assets\Demigiant\Demigiant\readme_DOTweenPro.txt" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\ParadeRender.shader" />

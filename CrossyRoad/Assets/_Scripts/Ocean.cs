@@ -68,6 +68,16 @@ public class Ocean : MonoBehaviour {
 			PracticleSystem.SetActive(true);
 			Debug.Log("hit Player");
 		}
+		if(other.gameObject.tag == "Lion")
+		{
+			Debug.Log("lion");
+			Vector3 position = PracticleSystem.transform.position;
+			position.z = other.gameObject.transform.position.z;
+			PracticleSystem.transform.position = position;
+			other.gameObject.GetComponentInParent<Enemy>().TakeDamage();
+			PracticleSystem.SetActive(true);
+
+		}
 		
 	}
 	private IEnumerator SpawStuff(float waitTime)

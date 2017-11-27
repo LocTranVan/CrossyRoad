@@ -18,8 +18,19 @@ public class Train : MonoBehaviour {
 
 
 	private bool turnLight, side;
+	private Material defaultMaterial;
 	// Use this for initialization
+	private void Awake()
+	{
+		//defaultMaterial = GetComponentInChildren<Renderer>().material;
+	}
 	void Start () {
+		Material material = gameManager.intance.GetMaterial();
+		if (material != null)
+		{
+			GetComponentInChildren<Renderer>().material = material;
+		}
+
 		indexEndTrain = Random.Range(0, 2);
 		indexStartTrain = (indexEndTrain == 1) ? 0 : 1;
 

@@ -8,11 +8,21 @@ public class Grass : MonoBehaviour {
 	public GameObject[] Tree;
 	public float offset;
 	public bool GrassMid;
+
+	private Material defaulMaterial;
 	private void Awake()
 	{
-
+		defaulMaterial = GetComponent<Renderer>().material;
 	}
 	void Start () {
+		Material material = gameManager.intance.GetMaterial();
+		if (material != null)
+		{
+			GetComponent<Renderer>().material = material;
+		}
+	//	else
+			//GetComponent<Renderer>().material = defaulMaterial;
+
 		spawTree(Instantiate(Tree[Random.Range(2, 4)], MilestonesRight.position, Quaternion.identity));
 		spawTree(Instantiate(Tree[Random.Range(2, 4)], MilestonesLeft.position, Quaternion.identity));
 
@@ -23,9 +33,8 @@ public class Grass : MonoBehaviour {
 			spawTree(Instantiate(Tree[Random.Range(0, 5)], MilestonesRight.position - new Vector3(0, 0, k * offset), Quaternion.identity));
 			spawTree(Instantiate(Tree[Random.Range(0, 5)], MilestonesLeft.position + new Vector3(0, 0, k * offset), Quaternion.identity));
 
-			if (!GrassMid)
+			if (!GrassMid)	
 				spawTree(Instantiate(Tree[Random.Range(0, 5)], MilestonesMid.position + new Vector3(0, 0, k * offset) * Mathf.Pow(-1, Random.Range(0, 2)), Quaternion.identity));
-
 			k--;
 		}
 	}
