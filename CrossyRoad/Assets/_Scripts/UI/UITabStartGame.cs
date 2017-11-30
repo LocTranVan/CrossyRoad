@@ -19,8 +19,7 @@ public class UITabStartGame : MonoBehaviour {
 		ButtonChoosePlayer.SetActive(true);
 		ButtonChossePet.SetActive(true);
 		if (ImageCrossy.transform.position.x > 1000)
-			ImageCrossy.transform.position -= new Vector3(1000, 0, 0);
-			Debug.Log(ImageCrossy.transform.position);
+			ImageCrossy.transform.position -= new Vector3(1000, -300, 0);
 		//ImageCrossy.transform.position = currentImage;
 	}
 	// Update is called once per frame

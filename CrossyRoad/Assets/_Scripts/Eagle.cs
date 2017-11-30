@@ -34,7 +34,7 @@ public class Eagle : MonoBehaviour {
 	}
 	private void OnTriggerEnter(Collider other)
 	{
-		if(other.gameObject.tag == "Player")
+		if(other.gameObject.name == "uniHorse")
 		{
 			Debug.Log("hit");
 			hitPlayer = true;

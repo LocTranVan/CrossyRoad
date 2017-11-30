@@ -8,8 +8,45 @@ public class Car : MonoBehaviour {
 	// Use this for initialization
 	private float directionWay;
 	private GameObject objectFather;
+	private AudioSource audioSource, audioCoiXe;
+	public AudioClip carEnginer, coiXe;
+
+	public bool train;
 	void Start () {
 		rigidbody = GetComponent<Rigidbody>();
+		audioSource = GetComponent<AudioSource>();
+		audioCoiXe = GetComponent<AudioSource>();
+		if (!train)
+		{
+			audioSource.clip = carEnginer;
+			audioSource.volume = Random.Range(0.05f, 0.2f);
+			audioSource.loop = true;
+			audioSource.Play();
+
+			float waitTime = Random.Range(2f, 10f);
+
+			StartCoroutine(coiXeEnum(waitTime));
+		}
+		else
+		{
+			audioSource.clip = carEnginer;
+			audioSource.PlayOneShot(carEnginer, 0.8f);
+			audioSource.PlayDelayed(0.5f);
+			StartCoroutine(coiXeEnum(1f));
+
+		}
+		
+
+		
+	}
+	
+	private IEnumerator coiXeEnum(float time)
+	{
+		while (true)
+		{
+			yield return new WaitForSeconds(time);
+			audioCoiXe.PlayOneShot(coiXe, 1.5f);	
+		}
 	}
 	public void init(float speed, GameObject objectFather)
 	{

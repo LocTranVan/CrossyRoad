@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
 	private bool shrug = false, IsDead, IsGround;
 	//private static Character intance;
 	private GameObject carHit;
-	public Transform target;
+	private Transform target;
 	private Vector3 target2;
 	bool finding;
 	Vector3[] path;
@@ -50,6 +50,7 @@ public class Enemy : MonoBehaviour
 	private bool preesKey = false;
 	private Vector3 velocityHit;
 	private Pathfinding p;
+	private GameObject YardPath;
 	private void Awake()
 	{
 		p = GetComponent<Pathfinding>();
@@ -60,9 +61,16 @@ public class Enemy : MonoBehaviour
 		journeyJump = Vector3.Distance(startJump, endJump);
 		journeyScale = Vector3.Distance(new Vector3(1, 1, 1), endScaleForWard);
 
-		mesh = player.GetComponent<MeshRenderer>();
+		GameObject PlayerCharacter = GameObject.FindGameObjectWithTag("Player");
+
+		target = PlayerCharacter.GetComponent<Transform>();
+		PlayerCharacter.GetComponent<Character>().setActiveYardPath();
+
+
+		mesh = GetComponentInChildren<MeshRenderer>();
+
 		rigidbody = GetComponent<Rigidbody>();
-		anim = player.GetComponent<Animation>();
+		anim = player.GetComponentInChildren<Animation>();
 		target2 = target.position + new Vector3(90, 0, 0);
 
 		endPosition = transform.position;
@@ -97,6 +105,7 @@ public class Enemy : MonoBehaviour
 	}
 	public void ResetLife()
 	{
+		
 		isDead = false;
 		transform.position = target.position;
 		StopCoroutine(updatePath());
@@ -104,7 +113,7 @@ public class Enemy : MonoBehaviour
 		transform.localScale = new Vector3(1, 1, 1);
 		Physics.IgnoreLayerCollision(9, 12, false);
 		Physics.IgnoreLayerCollision(8, 12, false);
-
+		
 	}
 	private void setUpForShrug()
 	{

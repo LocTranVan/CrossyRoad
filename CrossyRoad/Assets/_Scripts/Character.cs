@@ -23,7 +23,12 @@ public class Character : MonoBehaviour
 	//private static Character intance;
 	private GameObject carHit;
 	public GameObject snowFalling;
+	public GameObject YardPath;
 	private Vector3 maxPosition = Vector3.zero;
+
+	//Audio
+	private AudioSource audioSource;
+	public AudioClip jumpAudio, carHitAudio, getCoin;
 	public bool isDead
 	{
 		get
@@ -67,7 +72,7 @@ public class Character : MonoBehaviour
 		mesh = player.GetComponent<MeshRenderer>();
 		rigidbody = GetComponent<Rigidbody>();
 		anim = player.GetComponent<Animation>();
-
+		audioSource = GetComponent<AudioSource>();
 		if(gameManager.intance.getCharacter() != null)
 		{
 			GameObject currentCharater = gameManager.intance.getCharacter();
@@ -156,10 +161,17 @@ public class Character : MonoBehaviour
 			endMarker.x = Mathf.Round(endMarker.x / 9) * 9;
 			endMarker.z = Mathf.Round(endMarker.z / 8) * 8;
 			jump = false;
+
+			audioSource.PlayOneShot(jumpAudio, 0.3f);
 		}
 		return check;
 
 
+	}
+	public void setActiveYardPath()
+	{
+		if (YardPath != null)
+			YardPath.SetActive(true);
 	}
 	private void setUpForJump(Vector3 angleRotate)
 	{
@@ -183,11 +195,13 @@ public class Character : MonoBehaviour
 			carHit = other.gameObject;
 
 			velocityHit = new Vector3(0, 0, -carHit.transform.position.z + position.z);
+			audioSource.PlayOneShot(carHitAudio, 1f);
 			TakeDamage();
 		}
 		if (other.gameObject.tag == "Coin")
 		{
 			other.gameObject.GetComponent<Coin>().prepareDisapear();
+			audioSource.PlayOneShot(getCoin, 1f);
 			gameManager.intance.setCoin();
 		}
 	}

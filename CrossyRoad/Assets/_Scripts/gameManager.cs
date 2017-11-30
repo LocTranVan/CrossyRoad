@@ -7,18 +7,21 @@ using DG.Tweening;
 public class gameManager : MonoBehaviour {
 
 	public static gameManager intance;
+	private int highScore;
 	public GameObject EndPanel;
 	public GameObject btnSaveMe;
-	public GameObject ChoosePlayerPanel, PanelResetGame, imageCrossyRoad, PanelInGame;
-	public GameObject PanelStartGame;
+	// PanelUI
+	public GameObject ChoosePlayerPanel, PanelResetGame,
+		imageCrossyRoad, PanelInGame, PanelPause;
+	public GameObject PanelStartGame, PanelSetting;
+
 	private GameObject player, camera;
 	public GameObject canvas;
 	private GameObject currentCharater;
 	public GameObject defautCharacter;
-
+	public GameObject pet;
 	public Material materialSnowFlower, materialNormal;
 
-	private GameObject pet, YardPet;
 	private int _score = 10, _coins;
 	
 
@@ -38,21 +41,15 @@ public class gameManager : MonoBehaviour {
 		DontDestroyOnLoad(gameObject);
 	
 		currentCharater = defautCharacter;
-	
+		highScore = PlayerPrefs.GetInt("highscore");
+		Debug.Log(highScore);
 	}
 
 	public void IntancePet()
 	{
-		pet = GameObject.FindGameObjectWithTag("Lion");
-		YardPet = GameObject.FindGameObjectWithTag("YardPet");
-		Debug.Log("pet");
-		if(pet != null && YardPet != null)
-		{
-			pet.SetActive(true);
-			YardPet.SetActive(true);
-		}
+		player = GameObject.Find("Player");
+		Instantiate(pet, player.transform.position, Quaternion.identity);
 	}
-	
 	// Update is called once per frame
 	void Update () {
 		
@@ -61,7 +58,10 @@ public class gameManager : MonoBehaviour {
 	{
 
 	}
-	
+	public void Setting()
+	{
+		PanelSetting.SetActive(true);
+	}
 	public void EndGame()
 	{
 		if (!reloadGame)
@@ -72,10 +72,11 @@ public class gameManager : MonoBehaviour {
 	}
 	public void SaveMe()
 	{
-		GameObject StupidDog = GameObject.Find("Lion");
+		GameObject StupidDog = GameObject.FindGameObjectWithTag("Lion");
 		if(StupidDog != null)
 		{
-			StupidDog.GetComponent<Enemy>().ResetLife();
+			Enemy ni = StupidDog.GetComponent<Enemy>();
+			ni.ResetLife();
 		}
 		btnSaveMe.SetActive(false);
 	}
@@ -119,6 +120,17 @@ public class gameManager : MonoBehaviour {
 			canvas.GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
 		}
 		
+	}
+	public void setPause()
+	{
+		PanelPause.SetActive(true);
+		Time.timeScale = 0;
+		
+	}
+	public void setContinueGame()
+	{
+		PanelPause.SetActive(false);
+		Time.timeScale = 1;
 	}
 	public Material GetMaterial()
 	{
@@ -181,6 +193,8 @@ public class gameManager : MonoBehaviour {
 	public void setScore()
 	{
 		_score ++;
+		if (_score > highScore)
+			PlayerPrefs.SetInt("highscore", _score);
 		PanelInGame.GetComponent<ScoreUI>().setScoreAndChangeSprite(_score);
 	}
 	public void setCoin()

@@ -12,6 +12,7 @@ TagManager:
   - Lion
   - Coin
   - YardPet
+  - CoreCharacter
   layers:
   - Default
   - TransparentFX

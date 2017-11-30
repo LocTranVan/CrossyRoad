@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 68b8bd844ea33164ea0081886cfa6fe5
-timeCreated: 1511751626
+timeCreated: 1511951767
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -25,6 +25,22 @@ TextureImporter:
     21300036: number_18
     21300038: number_19
     21300040: number_20
+    21300042: number_21
+    21300044: number_22
+    21300046: number_23
+    21300048: number_24
+    21300050: number_25
+    21300052: number_26
+    21300054: number_27
+    21300056: number_28
+    21300058: number_29
+    21300060: number_30
+    21300062: number_31
+    21300064: number_32
+    21300066: number_33
+    21300068: number_34
+    21300070: number_35
+    21300072: number_36
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -391,6 +407,230 @@ TextureImporter:
         y: 598
         width: 115
         height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: number_21
+      rect:
+        serializedVersion: 2
+        x: 1553
+        y: 1212
+        width: 82
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: number_22
+      rect:
+        serializedVersion: 2
+        x: 1696
+        y: 1228
+        width: 57
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: number_23
+      rect:
+        serializedVersion: 2
+        x: 1815
+        y: 1221
+        width: 141
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: number_24
+      rect:
+        serializedVersion: 2
+        x: 2160
+        y: 1157
+        width: 97
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: number_25
+      rect:
+        serializedVersion: 2
+        x: 1532
+        y: 1008
+        width: 143
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: number_26
+      rect:
+        serializedVersion: 2
+        x: 1542
+        y: 830
+        width: 143
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: number_27
+      rect:
+        serializedVersion: 2
+        x: 1819
+        y: 768
+        width: 143
+        height: 134
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: number_28
+      rect:
+        serializedVersion: 2
+        x: 2052
+        y: 755
+        width: 184
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: number_29
+      rect:
+        serializedVersion: 2
+        x: 1586
+        y: 564
+        width: 143
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: number_30
+      rect:
+        serializedVersion: 2
+        x: 1890
+        y: 1009
+        width: 81
+        height: 77
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: number_31
+      rect:
+        serializedVersion: 2
+        x: 1865
+        y: 586
+        width: 187
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: number_32
+      rect:
+        serializedVersion: 2
+        x: 2175
+        y: 602
+        width: 147
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: number_33
+      rect:
+        serializedVersion: 2
+        x: 2257
+        y: 812
+        width: 155
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: number_34
+      rect:
+        serializedVersion: 2
+        x: 2103
+        y: 922
+        width: 145
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: number_35
+      rect:
+        serializedVersion: 2
+        x: 1896
+        y: 378
+        width: 145
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: number_36
+      rect:
+        serializedVersion: 2
+        x: 2174
+        y: 429
+        width: 155
+        height: 109
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

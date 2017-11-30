@@ -104,6 +104,7 @@
     <Compile Include="Assets\_Scripts\Enemy.cs" />
     <Compile Include="Assets\_Scripts\gameManager.cs" />
     <Compile Include="Assets\_Scripts\Grass.cs" />
+    <Compile Include="Assets\_Scripts\Intro.cs" />
     <Compile Include="Assets\_Scripts\Ocean.cs" />
     <Compile Include="Assets\_Scripts\PathFinding\Grid.cs" />
     <Compile Include="Assets\_Scripts\PathFinding\Heap.cs" />
@@ -118,7 +119,9 @@
     <Compile Include="Assets\_Scripts\Tree.cs" />
     <Compile Include="Assets\_Scripts\UI\ControllScrollView.cs" />
     <Compile Include="Assets\_Scripts\UI\ScoreUI.cs" />
+    <Compile Include="Assets\_Scripts\UI\SoundManager.cs" />
     <Compile Include="Assets\_Scripts\UI\test.cs" />
+    <Compile Include="Assets\_Scripts\UI\UIManager.cs" />
     <Compile Include="Assets\_Scripts\UI\UITabStartGame.cs" />
     <Compile Include="Assets\_Scripts\Wood.cs" />
     <Compile Include="Assets\Demigiant\Demigiant\DOTweenPro\DOTweenAnimation.cs" />

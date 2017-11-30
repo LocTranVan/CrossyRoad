@@ -19,6 +19,9 @@ public class Train : MonoBehaviour {
 
 	private bool turnLight, side;
 	private Material defaultMaterial;
+	// AudioSourec
+	private AudioSource audioSource;
+	public AudioClip chuong;
 	// Use this for initialization
 	private void Awake()
 	{
@@ -26,6 +29,7 @@ public class Train : MonoBehaviour {
 	}
 	void Start () {
 		Material material = gameManager.intance.GetMaterial();
+		audioSource = GetComponent<AudioSource>();
 		if (material != null)
 		{
 			GetComponentInChildren<Renderer>().material = material;
@@ -36,8 +40,9 @@ public class Train : MonoBehaviour {
 
 		spawPositionCar[indexEndTrain].SetActive(true);
 
-		speed = Random.Range(100f, 400f);
+		speed = Random.Range(300f, 600f);
 		float waitTime = Random.Range(timeWait, 2*timeWait);
+
 
 		coroutine = spawTrain(waitTime);
 		StartCoroutine(coroutine);
@@ -50,8 +55,8 @@ public class Train : MonoBehaviour {
 			setUpForTrain();
 			yield return new WaitForSeconds(3f);
 			GameObject train =	Instantiate(trains, spawPositionCar[indexStartTrain].transform.position, Quaternion.identity);
-		
-
+			//audioSource.loop = false;
+			//audioSource.Stop();
 			float direction = (indexStartTrain == 0) ? 1 : -1;
 			train.GetComponent<Car>().init(speed * direction, gameObject);
 		}
@@ -67,6 +72,8 @@ public class Train : MonoBehaviour {
 	}
 	private void setUpForTrain()
 	{
+		AudioCoiXe();
+		Invoke("AudioCoiXe", 1f);
 		turnLight = true;
 		waitTimeLight = Time.time;
 		side = true;
@@ -75,6 +82,10 @@ public class Train : MonoBehaviour {
 		Vector3 position = bangDen.transform.position;
 		position.y += 1;
 		bangDen.position = position;
+	}
+	private void AudioCoiXe()
+	{
+		audioSource.PlayOneShot(chuong, 0.5f);
 	}
 	private void FixedUpdate()
 	{

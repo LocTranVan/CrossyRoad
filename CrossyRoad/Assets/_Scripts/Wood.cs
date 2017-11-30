@@ -17,9 +17,14 @@ public class Wood : MonoBehaviour {
 	private float journeyHit;
 	private float timeHit, timeStartHit;
 	private bool Sank = false, changePos = false;
+	public bool beo;
+	//AudioSource
+	private AudioSource audioSource;
+	public AudioClip WoodInAudio, WoodOutAudio, Beo;
 	// Use this for initialization
 	void Start () {
 		rigidbody = GetComponent<Rigidbody>();
+		audioSource = GetComponent<AudioSource>();
 		journeyHit = Vector3.Distance(startPosHit, endPosHit);
 	}
 	public void init(float speed, GameObject objectFather)
@@ -52,11 +57,17 @@ public class Wood : MonoBehaviour {
 	}
 	private void tranformWhenHit(Collider target)
 	{
-		if (target.gameObject.tag == "Player")
+		if (target.gameObject.tag == "CoreCharacter")
 		{
+			Debug.Log("hit");
 			timeHit = Time.time;
 			Sank = true;
 			changePos = !changePos;
+
+			if (speed != 0)
+				audioSource.PlayOneShot(WoodInAudio, 1f);
+			else
+				audioSource.PlayOneShot(Beo, 1f);
 		}
 	}
 	private void AnimateHit()

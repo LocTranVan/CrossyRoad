@@ -18,9 +18,19 @@ public class Ocean : MonoBehaviour {
 	private float speed;
 	private bool spaw = true;
 	private float waitTime;
+
+	private AudioSource audioSource, audioFallWater;
+	public AudioClip riverAudio, flallRiverAudio;
+	//public AudioClip riverAudio;
 	void Start () {
 
 		vatTroi = Stuff[Random.Range(0, 3)];
+		audioSource = GetComponent<AudioSource>();
+		audioFallWater = GetComponent<AudioSource>();
+
+		audioSource.loop = true;
+		audioSource.PlayOneShot(riverAudio, 0.1f);
+
 		if (vatTroi == Stuff[2])
 		{
 			int number = Random.Range(1, 4);
@@ -55,12 +65,15 @@ public class Ocean : MonoBehaviour {
 	}
 	private void OnTriggerEnter(Collider other)
 	{
+		//GameObject objectFather = other.GetComponentInParent<Transform>().gameObject;
 		
-		if (other.gameObject.tag == "Player")
+		if (other.name == "uniHorse")
 		{
 			//other.gameObject.GetComponent<Character>().isDead = true;
 			other.gameObject.GetComponentInParent<Character>().TakeDamage();
-
+			audioFallWater.volume = 1f;
+			audioFallWater.PlayOneShot(flallRiverAudio, 1f);
+		
 			Vector3 position = PracticleSystem.transform.position;
 			position.z = other.gameObject.transform.position.z;
 			PracticleSystem.transform.position = position;
@@ -68,7 +81,7 @@ public class Ocean : MonoBehaviour {
 			PracticleSystem.SetActive(true);
 			Debug.Log("hit Player");
 		}
-		if(other.gameObject.tag == "Lion")
+		if(other.name == "LionCharcacter")
 		{
 			Debug.Log("lion");
 			Vector3 position = PracticleSystem.transform.position;
