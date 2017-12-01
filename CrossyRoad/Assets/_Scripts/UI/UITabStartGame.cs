@@ -5,7 +5,7 @@ using DG.Tweening;
 public class UITabStartGame : MonoBehaviour {
 	public GameObject btTap;
 	public GameObject ImageCrossy;
-	public GameObject ButtonChoosePlayer, ButtonChossePet;
+	public GameObject ButtonChoosePlayer, ButtonChossePet, ButtonMore;
 	private Vector3 currentImage;
 	// Use this for initialization
 	void Start () {
@@ -17,7 +17,7 @@ public class UITabStartGame : MonoBehaviour {
 	{
 		btTap.SetActive(true);
 		ButtonChoosePlayer.SetActive(true);
-		ButtonChossePet.SetActive(true);
+		ButtonMore.SetActive(true);
 		if (ImageCrossy.transform.position.x > 1000)
 			ImageCrossy.transform.position -= new Vector3(1000, -300, 0);
 		//ImageCrossy.transform.position = currentImage;
@@ -32,7 +32,7 @@ public class UITabStartGame : MonoBehaviour {
 		btTap.SetActive(false);
 		ImageCrossy.GetComponent<DOTweenAnimation>().DORestart();
 		ButtonChoosePlayer.SetActive(false);
-		ButtonChossePet.SetActive(false);
+		ButtonMore.SetActive(false);
 	}
 	public void enableTabStartGame()
 	{
