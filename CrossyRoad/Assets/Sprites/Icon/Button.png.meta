@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: ea653714193203e4f95359d50bcb4159
-timeCreated: 1511778089
+timeCreated: 1513090709
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -17,6 +17,7 @@ TextureImporter:
     21300020: Button_10
     21300022: Button_11
     21300024: Button_12
+    21300026: Button_13
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -271,6 +272,20 @@ TextureImporter:
         y: 259
         width: 196
         height: 161
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Button_13
+      rect:
+        serializedVersion: 2
+        x: 778
+        y: 464
+        width: 165
+        height: 88
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

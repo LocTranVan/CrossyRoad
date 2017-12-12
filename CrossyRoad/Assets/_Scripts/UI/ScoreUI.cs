@@ -106,7 +106,6 @@ public class ScoreUI : MonoBehaviour {
 	}
 	private Sprite getSpriteCoin(char number)
 	{
-		Debug.Log(number);
 		switch (number)
 		{
 			case '0':

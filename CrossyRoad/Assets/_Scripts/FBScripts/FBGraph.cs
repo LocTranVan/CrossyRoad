@@ -286,18 +286,18 @@ public static class FBGraph
 			}
 
 			structuredScores.Add(entry);
-			//   if (!GameStateManager.FriendImages.ContainsKey(userId))
-			//    {
+			   if (!GameStateManager.FriendImages.ContainsKey(userId))
+			    {
 			// We don't have this players image yet, request it now
-			//  LoadFriendImgFromID (userId, pictureTexture =>
-			// {
-			//   if (pictureTexture != null)
-			// {
-			//    GameStateManager.FriendImages.Add(userId, pictureTexture);
-			//    GameStateManager.CallUIRedraw();
-			//  }
-			// });
-			// }
+			  LoadFriendImgFromID (userId, pictureTexture =>
+			 {
+			   if (pictureTexture != null)
+			 {
+			    GameStateManager.FriendImages.Add(userId, pictureTexture);
+			    GameStateManager.CallUIRedraw();
+			  }
+			 });
+			 }
 		}
 
 		GameStateManager.Scores = structuredScores;

@@ -28,8 +28,8 @@ public class GameMenu : MonoBehaviour
 	// UI Element References (Set in Unity Editor)
 	//  Header
 	public GameObject[] panelUser;
-    
-
+	public GameObject panelSocres;
+	public GameObject prefabScore;
     #region Built-In
     void Awake()
     {
@@ -143,7 +143,7 @@ public class GameMenu : MonoBehaviour
 		if (FB.IsLoggedIn)
 		{
 			// Swap GUI Header for a player after login
-
+			/*
 			GameObject ob = panelUser[0];
 			PersonInfo person = ob.GetComponent<PersonInfo>();
 			if (GameStateManager.UserTexture != null && !string.IsNullOrEmpty(GameStateManager.Username))
@@ -154,12 +154,38 @@ public class GameMenu : MonoBehaviour
 			if (GameStateManager.HighScore > 0)
 				person.setTxtScore(GameStateManager.HighScore.ToString());
 
-
+		*/
 
 			var scores = GameStateManager.Scores;
 			if (GameStateManager.ScoresReady && scores.Count > 0)
 			{
-			//Debug.Log(GameStateManager.Friends.Count + " " + scores.Count);
+
+				Transform[] childLBElements = panelSocres.GetComponentsInChildren<Transform>();
+				foreach (Transform childObject in childLBElements)
+				{
+					if (!panelSocres.transform.IsChildOf(childObject.transform))
+					{
+						Destroy(childObject.gameObject);
+					}
+				}
+				
+				// Populate leaderboard
+				for (int i = 0; i < scores.Count; i++)
+				{
+					GameObject LBgameObject = Instantiate(prefabScore) as GameObject;
+					PersonInfo LBelement = LBgameObject.GetComponent<PersonInfo>();
+
+					LBelement.SetupElement(i + 1, scores[i]);
+					RectTransform rect = LBelement.GetComponent<RectTransform>();
+					rect.anchoredPosition = new Vector2(0, i * -140);
+
+					LBelement.transform.SetParent(panelSocres.transform, false);
+				}
+			
+				// Scroll to top
+			//	LeaderboardScrollRect.verticalNormalizedPosition = 1f;
+
+				//Debug.Log(GameStateManager.Friends.Count + " " + scores.Count);
 			}
 		}
 		

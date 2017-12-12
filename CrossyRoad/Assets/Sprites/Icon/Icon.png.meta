@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 4298ce4daa4ae934a8b2ef345ab364e2
-timeCreated: 1512037269
+timeCreated: 1512114890
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -11,6 +11,8 @@ TextureImporter:
     21300008: Icon_4
     21300010: Icon_5
     21300012: Icon_6
+    21300014: Icon_7
+    21300016: Icon_8
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -181,6 +183,34 @@ TextureImporter:
         y: 2495
         width: 72
         height: 73
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Icon_7
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 2436
+        width: 58
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Icon_8
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 2018
+        width: 316
+        height: 377
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

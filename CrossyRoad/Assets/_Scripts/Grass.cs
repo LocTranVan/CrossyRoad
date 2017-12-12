@@ -10,6 +10,8 @@ public class Grass : MonoBehaviour {
 	public bool GrassMid;
 
 	private Material defaulMaterial;
+	private string introlDution = "";
+	private bool startSpaw = false;
 	private void Awake()
 	{
 		defaulMaterial = GetComponent<Renderer>().material;
@@ -25,22 +27,40 @@ public class Grass : MonoBehaviour {
 
 		spawTree(Instantiate(Tree[Random.Range(2, 4)], MilestonesRight.position, Quaternion.identity));
 		spawTree(Instantiate(Tree[Random.Range(2, 4)], MilestonesLeft.position, Quaternion.identity));
+			int k = 5;
 
-		int k = 5;
+			while (k >= 1)
+			{
+				spawTree(Instantiate(Tree[Random.Range(0, 5)], MilestonesRight.position - new Vector3(0, 0, k * offset), Quaternion.identity));
+				spawTree(Instantiate(Tree[Random.Range(0, 5)], MilestonesLeft.position + new Vector3(0, 0, k * offset), Quaternion.identity));
 
-		while (k >= 1)
+				if (!GrassMid && introlDution == "")
+					spawTree(Instantiate(Tree[Random.Range(0, 5)], MilestonesMid.position + new Vector3(0, 0, k * offset) * Mathf.Pow(-1, Random.Range(0, 2)), Quaternion.identity));
+				else if(introlDution != "" && !startSpaw)
+					setIntrolSpawTree();
+				k--;
+			}	
+	}
+	private void setIntrolSpawTree()
+	{
+		Debug.Log(introlDution);
+		int k = introlDution.Length;
+		char[] word = introlDution.ToCharArray();
+		for(int i = 0; i < k; i++)
 		{
-			spawTree(Instantiate(Tree[Random.Range(0, 5)], MilestonesRight.position - new Vector3(0, 0, k * offset), Quaternion.identity));
-			spawTree(Instantiate(Tree[Random.Range(0, 5)], MilestonesLeft.position + new Vector3(0, 0, k * offset), Quaternion.identity));
-
-			if (!GrassMid)	
-				spawTree(Instantiate(Tree[Random.Range(0, 5)], MilestonesMid.position + new Vector3(0, 0, k * offset) * Mathf.Pow(-1, Random.Range(0, 2)), Quaternion.identity));
-			k--;
+			if(word[i] == '1')
+				spawTree(Instantiate(Tree[Random.Range(0, 4)], MilestonesLeft.position - new Vector3(0, 0, (i + 1) * offset), Quaternion.identity));
+			
 		}
+		startSpaw = true;
 	}
 	private void spawTree(GameObject objectFather)
 	{
 		objectFather.GetComponent<Tree>().init(gameObject);
+	}
+	public void setIntroldution(string introl)
+	{
+		introlDution = introl;
 	}
 	void Update () {
 

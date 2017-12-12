@@ -22,7 +22,7 @@ public class gameManager : MonoBehaviour {
 	public GameObject pet;
 	public Material materialSnowFlower, materialNormal;
 
-	private int _score = 10, _coins;
+	private int _score, _coins;
 	
 
 	private bool reloadGame;
@@ -32,14 +32,16 @@ public class gameManager : MonoBehaviour {
 		winter, summer
 	}
 	private Maps map = Maps.summer;
-	// Use this for initialization
-	void Start () {
+	private void Awake()
+	{
 		if (intance == null)
 			intance = this;
-		else if(intance != this)
+		else if (intance != this)
 			Destroy(gameObject);
 		DontDestroyOnLoad(gameObject);
-	
+	}
+	// Use this for initialization
+	void Start () {
 		currentCharater = defautCharacter;
 		highScore = PlayerPrefs.GetInt("highscore");
 		Debug.Log(highScore);
@@ -155,6 +157,9 @@ public class gameManager : MonoBehaviour {
 	public void ChooseCharacter()
 	{
 		ChoosePlayerPanel.SetActive(true);
+		ScoreUI scoreUI = ChoosePlayerPanel.GetComponent<ScoreUI>();
+		scoreUI.setNumberCoinAndChangeSprite(_coins);
+		Debug.Log("coin" + _coins);
 	}
 	public void ActiveBt()
 	{

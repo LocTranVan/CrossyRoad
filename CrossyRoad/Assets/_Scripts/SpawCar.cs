@@ -28,7 +28,28 @@ public class SpawCar : MonoBehaviour {
 		coroutine = SpawACar(waitTime);
 		StartCoroutine(coroutine);
 	}
+	private IEnumerator SpawACar(float waitTime)
+	{
+		while (true)
+		{
 
+			if (numberCars <= 3)
+			{
+				GameObject Car = Instantiate(Cars[Random.Range(0, Cars.Length)],
+					spawPositionCar[indexStartCar].transform.position, Quaternion.identity);
+
+				float direction = (indexStartCar == 0) ? 1 : -1;
+				Car.GetComponent<Car>().init(speed * direction, gameObject);
+				numberCars++;
+			}
+			yield return new WaitForSeconds(waitTime);
+			if (numberCars > 3)
+			{
+				yield return new WaitForSeconds(waitTime);
+				numberCars = 0;
+			}
+		}
+	}
 	public void effectBlood(Vector3 pPlayer)
 	{
 		Vector3 position = PracticleSystem.transform.position;
@@ -42,25 +63,5 @@ public class SpawCar : MonoBehaviour {
 	void Update () {
 		
 	}
-	private IEnumerator SpawACar(float waitTime)
-	{
-		while (true)
-		{
-		
-			if (numberCars <= 3)
-			{
-				GameObject Car = Instantiate(Cars[Random.Range(0, Cars.Length)], spawPositionCar[indexStartCar].transform.position, Quaternion.identity);
 
-				float direction = (indexStartCar == 0) ? 1 : -1;
-				Car.GetComponent<Car>().init(speed * direction, gameObject);
-				numberCars++;
-			}
-			yield return new WaitForSeconds(waitTime);
-			if (numberCars > 3)
-			{
-				yield return new WaitForSeconds(waitTime );
-				numberCars = 0;
-			}
-		}
-	}
 }
