@@ -39,7 +39,12 @@ public class Intro : MonoBehaviour {
 		while (true)
 		{
 			yield return new WaitForSeconds(0.3f);
-			checkSpre(Player.transform.position);
+			if(Player != null)
+				checkSpre(Player.transform.position);
+			else
+			{
+				Player = GameObject.Find("Player");
+			}
 			yield return new WaitForSeconds(waitTime);
 		}
 	}
@@ -55,13 +60,6 @@ public class Intro : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		RaycastHit hit;
-		Vector3 postion = Player.transform.position + Vector3.up * 9;
-		Ray rayLeft = new Ray(postion, Vector3.left);
-		Ray rayRight = new Ray(postion, Vector3.right);
-		Ray rayTop = new Ray(postion, Vector3.right);
-
-		Debug.DrawLine(postion, postion + Vector3.right * 9, Color.red);
 	}
 
 	private void checkSpre(Vector3 postion)

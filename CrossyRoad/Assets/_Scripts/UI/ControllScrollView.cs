@@ -12,7 +12,8 @@ public class ControllScrollView : MonoBehaviour, IEndDragHandler, IBeginDragHand
 	private Vector2 endPosition;
 	private bool move;
 
-
+	public GameObject nameCharacter;
+	public GameObject btBuy;
 	//For Lerp
 	private float startTime, journeyMove;
 	//For Object choosed
@@ -20,9 +21,11 @@ public class ControllScrollView : MonoBehaviour, IEndDragHandler, IBeginDragHand
 
 	private void Start()
 	{
+		//PlayerPrefs.DeleteAll();
 		distanceCharacter = Vector3.Distance(AllCharacter[0].anchoredPosition, AllCharacter[1].anchoredPosition);
 		currentChoose = AllCharacter[(int)(AllCharacter.Length / 2) + 1].gameObject;
 		previousChoose = currentChoose;
+		zoom();
 	}
 	public void OnBeginDrag(PointerEventData eventData)
 	{
@@ -57,7 +60,12 @@ public class ControllScrollView : MonoBehaviour, IEndDragHandler, IBeginDragHand
 
 		move = true;
 
+		zoom();
 
+
+	}
+	public void zoom()
+	{
 		float min = 100;
 		GameObject newChoose = currentChoose;
 		foreach (RectTransform p in AllCharacter)
@@ -81,8 +89,24 @@ public class ControllScrollView : MonoBehaviour, IEndDragHandler, IBeginDragHand
 	private void Scale()
 	{
 		currentChoose.gameObject.GetComponent<DOTweenAnimation>().DORestartById("ZoomOut");
+		setName(currentChoose);
+		setActiveBtBuy(currentChoose);
+
 		SoundManager.intance.soundBTChoosePlayer();
 		previousChoose.gameObject.GetComponent<DOTweenAnimation>().DORestartById("ZoomIn");
+	}
+	private void setActiveBtBuy(GameObject currentChoose)
+	{
+		Market market = currentChoose.GetComponent<Market>();
+		if (market.IsUnlock())
+			btBuy.SetActive(false);
+		else btBuy.SetActive(true);
+	}
+	private void setName(GameObject currentChoose)
+	{
+		Market market = currentChoose.GetComponent<Market>();
+		Text txtNameCharacter = nameCharacter.GetComponent<Text>();
+		txtNameCharacter.text = market.nameCharacter;
 	}
 	public void ChangePosition()
 	{
@@ -95,6 +119,20 @@ public class ControllScrollView : MonoBehaviour, IEndDragHandler, IBeginDragHand
 	public void changeCharacter()
 	{
 		gameManager.intance.setPlayer(currentChoose);
+	
+	}
+	public void buyCharacter()
+	{
+		Market market = currentChoose.GetComponent<Market>();
+		//if (market.IsUnlock())
+			//gameManager.intance.setPlayer(currentChoose);
+		if (gameManager.intance.buyCharacter(market.getPrice()))
+		{
+			market.setUnlock();
+			setActiveBtBuy(currentChoose);
+		//	gameManager.intance.setPlayer(currentChoose);
+		}
+
 	}
 
 

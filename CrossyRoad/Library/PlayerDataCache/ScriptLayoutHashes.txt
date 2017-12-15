@@ -127,6 +127,7 @@ d9e4e9621dbe971123d14a68eb3d38c8 Assembly-CSharp.dll:.UIManager
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Facebook.Unity.Example.ConsoleBase
 4ebbb2be82c613875120c41b2b8b2fec Assembly-CSharp.dll:.Ocean
 d06a7a6abb39bd733188db18a9befce2 Assembly-CSharp.dll:.Eagle
+c3f6802bd419b381afb25791e6f04fa4 Assembly-CSharp.dll:.Market
 116f73218c514cbbb83a3292bb3a3b6c Assembly-CSharp.dll:.Coin
 e43283de937ebe57122cccc4cd251de0 Assembly-CSharp.dll:.Train
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PathRequestManager
@@ -152,7 +153,7 @@ f266a453cd4bfbe81533762a3e3589f4 DOTween.dll:DG.Tweening.Core.DOTweenComponent
 faaf4d03d75f6550af75e6f594ed0ec6 Assembly-CSharp.dll:.gameManager
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Facebook.Unity.Example.MainMenu
 20d2680e676df852fb07e49ca9f425b8 Assembly-CSharp.dll:.CameraMovement
-77354a60477ffdfdbd080825c7edad92 Assembly-CSharp.dll:.SetupEnviroment
+12a0f234bca528bbe6f7cc93a55209ca Assembly-CSharp.dll:.SetupEnviroment
 6fa7fce0bbd4b05a610b38e8e986f2c5 Assembly-CSharp.dll:.GameMenu
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
@@ -168,10 +169,10 @@ e9bdabf9265d758d56f01bb188916fa8 UnityEngine.Networking.dll:UnityEngine.Networki
 3f32f08a64daf40b09ed864d96fe3840 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransform
 73843688b51256aed059f049c540bca8 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformChild
 528ea1fd7c01796fc60c4e2f172ea229 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformVisualizer
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.test
-e054a597be32f44c5d1708358f9ff5f3 Assembly-CSharp.dll:.Intro
+8c136cfec9055b5f367faa383a02d7f0 Assembly-CSharp.dll:.test
+0f8af5c8537d018b7192b30b63c5982e Assembly-CSharp.dll:.Intro
 b74e5544e6a19779e29c46dbd42afd54 Assembly-CSharp.dll:.Wood
-19315deb7ddaed58ee6fb776ffbbbff2 Assembly-CSharp.dll:.PersonInfo
+c89e30c041d100a08ba03bc78b97ebf3 Assembly-CSharp.dll:.PersonInfo
 cf6bbf22c5161e1019aefbe5ac8c3ad8 Assembly-CSharp.dll:.ScoreUI
 3b0b4afc7c129f06761f2ebcab240c3a Assembly-CSharp.dll:.SpawCoin
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.Callbacks.PlayModeRunnerCallback
@@ -185,7 +186,7 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.VR.WSA.Spa
 2954ac29b748b9d0a82c69f42b6e1309 Assembly-CSharp.dll:.Car
 beb1e61d6900cf5ec97cd7c38d108930 DOTweenPro.dll:DG.Tweening.DOTweenPath
 55ea52667834e0e787f572b6ef49bd6a DOTweenPro.dll:DG.Tweening.DOTweenVisualManager
-0a6a99e1fd1c0b0c1ddfe06825c26325 Assembly-CSharp.dll:.ControllScrollView
+76cb2668db238259f263e2ec392e5111 Assembly-CSharp.dll:.ControllScrollView
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Facebook.Unity.Example.AppInvites
 3a6c36b4d403c4d4142c6e67732c782f Assembly-CSharp.dll:DG.Tweening.DOTweenAnimation
 70da783d372e1925d7beca13bb311f8a Assembly-CSharp.dll:.Enemy
@@ -193,3 +194,4 @@ beb1e61d6900cf5ec97cd7c38d108930 DOTweenPro.dll:DG.Tweening.DOTweenPath
 32e8fe00b63ed946490b898f6024a2f2 Facebook.Unity.Settings.dll:Facebook.Unity.Settings.FacebookSettings
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Facebook.Unity.Example.AppRequests
 a7a3aa790dc6444054e2b61dfd438867 Assembly-CSharp.dll:.Unit
+aabfdeb1155b8cd95ec5b8fb7a57180f Assembly-CSharp.dll:.TakePictureAndShare

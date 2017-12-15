@@ -22,7 +22,7 @@ public class gameManager : MonoBehaviour {
 	public GameObject pet;
 	public Material materialSnowFlower, materialNormal;
 
-	private int _score, _coins;
+	private int _score, _coins = 30;
 	
 
 	private bool reloadGame;
@@ -65,11 +65,14 @@ public class gameManager : MonoBehaviour {
 		PanelSetting.SetActive(true);
 	}
 	public void EndGame()
-	{
+	{	
 		if (!reloadGame)
 		{
 			EndPanel.SetActive(true);
 			reloadGame = true;
+
+			//player = GameObject.Find("Player");
+			//Debug.Log(((RectTransform)player.transform).anchoredPosition);
 		}
 	}
 	public void SaveMe()
@@ -122,6 +125,18 @@ public class gameManager : MonoBehaviour {
 			canvas.GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
 		}
 		
+	}
+	public bool buyCharacter(int price)
+	{
+		if (_coins >= price)
+		{
+			_coins -= price;
+			PanelInGame.GetComponent<ScoreUI>().setNumberCoinAndChangeSprite(_coins);
+			ScoreUI scoreUI = ChoosePlayerPanel.GetComponent<ScoreUI>();
+			scoreUI.setNumberCoinAndChangeSprite(_coins);
+			return true;
+		}
+		return false;
 	}
 	public void setPause()
 	{

@@ -125,6 +125,7 @@
     <Compile Include="Assets\_Scripts\FBScripts\GameStateManager.cs" />
     <Compile Include="Assets\_Scripts\FBScripts\GraphUtil.cs" />
     <Compile Include="Assets\_Scripts\FBScripts\PersonInfo.cs" />
+    <Compile Include="Assets\_Scripts\FBScripts\TakePictureAndShare.cs" />
     <Compile Include="Assets\_Scripts\gameManager.cs" />
     <Compile Include="Assets\_Scripts\Grass.cs" />
     <Compile Include="Assets\_Scripts\Intro.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Assets\_Scripts\Train.cs" />
     <Compile Include="Assets\_Scripts\Tree.cs" />
     <Compile Include="Assets\_Scripts\UI\ControllScrollView.cs" />
+    <Compile Include="Assets\_Scripts\UI\Market.cs" />
     <Compile Include="Assets\_Scripts\UI\ScoreUI.cs" />
     <Compile Include="Assets\_Scripts\UI\SoundManager.cs" />
     <Compile Include="Assets\_Scripts\UI\test.cs" />

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Character : MonoBehaviour
 {
 
@@ -26,6 +26,7 @@ public class Character : MonoBehaviour
 	public GameObject YardPath;
 	private Vector3 maxPosition = Vector3.zero;
 
+	private Texture2D snapshot;
 	//Audio
 	private AudioSource audioSource;
 	public AudioClip jumpAudio, carHitAudio, getCoin;
@@ -218,7 +219,33 @@ public class Character : MonoBehaviour
 
 		IsDead = true;
 		timeScale = Time.time;
+
+		//StartCoroutine(TakeSnapshot(Screen.width, Screen.height, 400, 400));
+		StartCoroutine(TakeSnapshot(240, 290, 400, 400));
+		//	Sprite mySprite = Sprite.Create(snapshot, new Rect(0.0f, 0.0f, 240, 290), new Vector2(5, 5), 100f);
+
+
+		//	snapshot = mySprite.texture;
+		Debug.Log(transform.position);
 	}
+	public IEnumerator TakeSnapshot(int width, int height, int posX, int posY)
+	{
+
+		yield return new WaitForEndOfFrame();
+		Texture2D texture = new Texture2D(width, height, TextureFormat.RGB24, true);
+
+		texture.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+
+		texture.Apply();
+	//	Sprite mySprite = Sprite.Create(texture, new Rect(0.0f, 0.0f, 240, 20), new Vector2(50, 15), 100f);
+		snapshot = texture;
+
+	}
+	public Texture2D getTexture()
+	{
+		return snapshot;
+	}
+
 	void FixedUpdate()
 	{
 		//	Debug.DrawLine(transform.position, transform.position + disJumpVertical * 1 / 2, Color.red);

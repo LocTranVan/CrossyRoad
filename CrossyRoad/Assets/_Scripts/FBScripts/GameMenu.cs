@@ -30,6 +30,8 @@ public class GameMenu : MonoBehaviour
 	public GameObject[] panelUser;
 	public GameObject panelSocres;
 	public GameObject prefabScore;
+
+	private bool share, score;
     #region Built-In
     void Awake()
     {
@@ -113,8 +115,14 @@ public class GameMenu : MonoBehaviour
 
         // Call Facebook Login for Read permissions of 'public_profile', 'user_friends', and 'email'
         FBLogin.PromptForLogin(OnLoginComplete);
+		score = true;
+		share = false;
     }
-
+	public void Share()
+	{
+		
+		FBShare.ShareBrag();
+	}
     private void OnLoginComplete()
     {
         Debug.Log("OnLoginComplete");
@@ -125,15 +133,34 @@ public class GameMenu : MonoBehaviour
             return;
         }
 
-        // Show loading animations
- 
+		// Show loading animations
 
-        // Begin querying the Graph API for Facebook data
-        FBGraph.GetPlayerInfo();
-        FBGraph.GetFriends();
-        FBGraph.GetInvitableFriends();
-        FBGraph.GetScores();
-    }
+
+		// Begin querying the Graph API for Facebook data
+		if (score)
+		{
+			 FBGraph.GetPlayerInfo();
+			FBGraph.GetFriends();
+			 FBGraph.GetInvitableFriends();
+			 FBGraph.GetScores();
+		}
+		if (share) {
+			FBShare.TakeScreenshot();
+			//FBShare.ShareBrag();
+		}
+		//FBShare.ShareBrag();
+		//FBShare.PostScore();
+	}
+	public void ShareImage()
+	{
+		if (!FB.IsInitialized)
+		{
+			FB.Init(InitCallback);
+		}
+		FBLogin.PromptForLogin(OnLoginComplete);
+		score = false;
+		share = true;
+	}
     #endregion
 
     #region GUI

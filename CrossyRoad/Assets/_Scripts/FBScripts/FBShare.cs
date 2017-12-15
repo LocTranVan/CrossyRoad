@@ -22,7 +22,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using Facebook.Unity;
-
+using FacebookGames;
 // Class responsible for Facebook Sharing in Friend Smash!
 //
 // In the Unity version of Friend Smash sharing is used for two purposes:
@@ -32,35 +32,62 @@ using Facebook.Unity;
 //
 public static class FBShare
 {
-    // Prompt the player to share using the Share Dialog
-    //
-    // This is a sharing flow that allows players to brag about their success in the game.
-    // By letting players share content, your game becomes visible to their friends in their newsfeeds,
-    // which is an important source of new traffic to your game.
-    //
-    // Unlike the API-based sharing using FB.ShareLink or FB.FeedShare to call the Share Dialog does NOT require
-    // extra publish_actions permissions.
-    //
-    public static void ShareBrag ()
+	// Prompt the player to share using the Share Dialog
+	//
+	// This is a sharing flow that allows players to brag about their success in the game.
+	// By letting players share content, your game becomes visible to their friends in their newsfeeds,
+	// which is an important source of new traffic to your game.
+	//
+	// Unlike the API-based sharing using FB.ShareLink or FB.FeedShare to call the Share Dialog does NOT require
+	// extra publish_actions permissions.
+	//
+	public static void ShareBrag ()
     {
         // For this share we are using a page hosted on the game server with relevant Open Graph and App Links tags
         // See Open Graph tags: https://developers.facebook.com/docs/sharing/opengraph/object-properties
         // See App Links tags: https://developers.facebook.com/docs/applinks/add-to-content
         //
         // Note: In this git repo, the page is located at X
-    //    string contentURL = GameStateManager.ServerURL + "sharing/share.php";
+        string contentURL = GameStateManager.ServerURL + "sharing/share.php";
 
         // https://developers.facebook.com/docs/unity/reference/current/FB.ShareLink
-		/*
+	
         FB.ShareLink(
             new Uri(contentURL),
             "Checkout my Friend Smash greatness!",
             "I just smashed " + GameStateManager.Score.ToString() + " friends! Can you beat it?",
             null,
-            ShareCallback); */
-    }
+            ShareCallback);
+		
+	}
 
-    private static void ShareCallback (IShareResult result)
+
+	
+	public static void TakeScreenshot()
+	{
+		GameObject player = GameObject.Find("Player");
+		Character character = player.GetComponent<Character>();
+
+		byte[] screenshot = character.getTexture().EncodeToPNG();
+
+		var wwwForm = new WWWForm();
+		wwwForm.AddBinaryData("image", screenshot, "Screenshot.png");
+		//wwwForm.AddField("name", "caption");
+
+		FB.API("me/photos", HttpMethod.POST, ShareScreenShotCallback, wwwForm);
+		
+	}
+	private static void ShareScreenShotCallback(IResult result)
+	{
+		Debug.Log("ShareCallback");
+		if (result.Error != null)
+		{
+			Debug.LogError(result.Error);
+			return;
+		}
+		Debug.Log(result.RawResult);
+	}
+	private static void ShareCallback (IShareResult result)
     {
         Debug.Log("ShareCallback");
         if (result.Error != null)
@@ -116,4 +143,5 @@ public static class FBShare
 			} ;
         }
     }
+
 }

@@ -35,7 +35,7 @@ public static class FBPayments
     // Note: In this git repo, these objects are located at X
     // Note2: Use the Open Graph Object Debugger to force scrape your open graph objects after updating: https://developers.facebook.com/tools/debug/og/object/
     //
-   // private static readonly string PaymentObjectURL = GameStateManager.ServerURL+"payments/{0}.php";
+    private static readonly string PaymentObjectURL = GameStateManager.ServerURL+"payments/{0}.php";
     private static readonly Dictionary<CoinPackage,string> PaymentObjects = new Dictionary<CoinPackage, string>
     {
         { CoinPackage.Hundred, "100coins" },
@@ -48,10 +48,10 @@ public static class FBPayments
     public static void BuyCoins (CoinPackage cPackage)
     {
         // Format payment URL
-       // string paymentURL = string.Format(PaymentObjectURL, PaymentObjects[cPackage]);
+        string paymentURL = string.Format(PaymentObjectURL, PaymentObjects[cPackage]);
 
         // https://developers.facebook.com/docs/unity/reference/current/FB.Canvas.Pay
-       /* FB.Canvas.Pay(paymentURL,
+       FB.Canvas.Pay(paymentURL,
                       "purchaseitem",
                       1,
                       null, null, null, null, null,
@@ -75,16 +75,16 @@ public static class FBPayments
                 // Verify payment before awarding item
                 if (VerifyPayment(payID))
                 {
-                   // GameStateManager.CoinBalance += (int)cPackage;
-                   // GameStateManager.CallUIRedraw();
-                 //   PopupScript.SetPopup("Purchase Complete",2f);
+                   GameStateManager.CoinBalance += (int)cPackage;
+                    GameStateManager.CallUIRedraw();
+                //  PopupScript.SetPopup("Purchase Complete",2f);
                 }
             }
             else
             {
                 Debug.Log("Payment error");
             }
-        }); */
+        }); 
     }
 
     // Verify payment with Facebook
