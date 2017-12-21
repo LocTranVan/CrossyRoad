@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using DG.Tweening;
 public class TakePictureAndShare : MonoBehaviour {
 	public GameObject ImageAvatar;
 	private Texture2D snapshot;
@@ -16,10 +16,29 @@ public class TakePictureAndShare : MonoBehaviour {
 	//	Invoke("TakePicture", 1f);
 		//TakePicture();
 		//StartCoroutine(TakeSnapshot(240, 290));
+		
+
+	}
+	private void OnEnable()
+	{
+		RectTransform position = GetComponent<RectTransform>();
+		position.localScale = new Vector3(0, 0, 0);
+		
+		StartCoroutine(startPlayImage());
+	}
+	private IEnumerator startPlayImage()
+	{
+		snapshot = null;
+
+		yield return new WaitForEndOfFrame();
 		Player = GameObject.Find("Player");
 		Character charact = Player.GetComponent<Character>();
 		snapshot = charact.getTexture();
 		TakePicture();
+
+		DOTweenAnimation animation = GetComponent<DOTweenAnimation>();
+		animation.DORestart();
+
 	}
 	// Update is called once per frame
 	void Update () {
@@ -28,6 +47,7 @@ public class TakePictureAndShare : MonoBehaviour {
 	public void TakePicture()
 	{
 		RawImage image = ImageAvatar.GetComponent<RawImage>();
+		image.texture = null;
 		image.texture = snapshot;
 	}
 	public IEnumerator TakeSnapshot(int width, int height)

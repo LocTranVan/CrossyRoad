@@ -30,19 +30,19 @@ public static class FBLogin
     // Constants for the list of permissions we are requesting when prompting for Facebook Login
     // Read permissions and publish permissions should be requested seperatly and within context
     // See more: https://developers.facebook.com/docs/facebook-login/permissions/overview
-    private static readonly List<string> readPermissions    = new List<string> {"public_profile","user_friends"};
-    private static readonly List<string> publishPermissions = new List<string> {"publish_actions"};
+    private static readonly List<string> readPermissions    = new List<string> { "public_profile", "user_friends"};
+    private static readonly List<string> publishPermissions = new List<string> { "publish_actions" };
 
-    // Prompt the player to authenticate Friend Smash! with Facebook Login
-    //
-    // By default FB.LogInWithReadPermissions will attempt to authenticate the user with only
-    // the basic permissions. If you need one or more additional permissions, pass in a list
-    // of the permissions you wish to request from the player.
-    //
-    // In Friend Smash, only user_friends is required to enable access to friends, so that the game can show friends's
-    // profile picture to make the experience more personal and engaging.
-    //
-    public static void PromptForLogin (Action callback = null)
+	// Prompt the player to authenticate Friend Smash! with Facebook Login
+	//
+	// By default FB.LogInWithReadPermissions will attempt to authenticate the user with only
+	// the basic permissions. If you need one or more additional permissions, pass in a list
+	// of the permissions you wish to request from the player.
+	//
+	// In Friend Smash, only user_friends is required to enable access to friends, so that the game can show friends's
+	// profile picture to make the experience more personal and engaging.
+	//
+	public static void PromptForLogin (Action callback = null)
     {
         // Login for read permissions
         // https://developers.facebook.com/docs/unity/reference/current/FB.LogInWithReadPermissions

@@ -22,7 +22,10 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using Facebook.Unity;
+
 using FacebookGames;
+using System.IO;
+
 // Class responsible for Facebook Sharing in Friend Smash!
 //
 // In the Unity version of Friend Smash sharing is used for two purposes:
@@ -41,42 +44,58 @@ public static class FBShare
 	// Unlike the API-based sharing using FB.ShareLink or FB.FeedShare to call the Share Dialog does NOT require
 	// extra publish_actions permissions.
 	//
-	public static void ShareBrag ()
-    {
-        // For this share we are using a page hosted on the game server with relevant Open Graph and App Links tags
-        // See Open Graph tags: https://developers.facebook.com/docs/sharing/opengraph/object-properties
-        // See App Links tags: https://developers.facebook.com/docs/applinks/add-to-content
-        //
-        // Note: In this git repo, the page is located at X
-        string contentURL = GameStateManager.ServerURL + "sharing/share.php";
+	public static void ShareBrag()
+	{
+		// For this share we are using a page hosted on the game server with relevant Open Graph and App Links tags
+		// See Open Graph tags: https://developers.facebook.com/docs/sharing/opengraph/object-properties
+		// See App Links tags: https://developers.facebook.com/docs/applinks/add-to-content
+		//
+		// Note: In this git repo, the page is located at X
+		string contentURL = GameStateManager.ServerURL + "sharing/share.php";
 
-        // https://developers.facebook.com/docs/unity/reference/current/FB.ShareLink
-	
-        FB.ShareLink(
-            new Uri(contentURL),
-            "Checkout my Friend Smash greatness!",
-            "I just smashed " + GameStateManager.Score.ToString() + " friends! Can you beat it?",
-            null,
-            ShareCallback);
+		// https://developers.facebook.com/docs/unity/reference/current/FB.ShareLink
 		
+		FB.ShareLink(
+			new Uri(contentURL),
+			"Checkout my Friend Smash greatness!",
+			"I just smashed " + GameStateManager.Score.ToString() + " friends! Can you beat it?",
+			null,
+			ShareCallback); 
+		
+
 	}
 
 
-	
+
 	public static void TakeScreenshot()
 	{
-		GameObject player = GameObject.Find("Player");
-		Character character = player.GetComponent<Character>();
+		if (FBLogin.HavePublishActions)
+		{
+			GameObject player = GameObject.Find("Player");
+			Character character = player.GetComponent<Character>();
 
-		byte[] screenshot = character.getTexture().EncodeToPNG();
+			byte[] screenshot = character.getTexture().EncodeToPNG();
 
-		var wwwForm = new WWWForm();
-		wwwForm.AddBinaryData("image", screenshot, "Screenshot.png");
-		//wwwForm.AddField("name", "caption");
+			var wwwForm = new WWWForm();
+			wwwForm.AddBinaryData("image", screenshot, "Screenshot.png");
+			wwwForm.AddField("message", "Crossy Road \n" +
+"https://apps.facebook.com/crossyroad/");
 
-		FB.API("me/photos", HttpMethod.POST, ShareScreenShotCallback, wwwForm);
-		
+			FB.API("me/photos", HttpMethod.POST, ShareScreenShotCallback, wwwForm);
+		}else
+		{
+			Debug.Log("no publish actions");
+			FBLogin.PromptForPublish(() =>
+			{
+				if (FBLogin.HavePublishActions)
+					TakeScreenshot();
+			});
+
+		}
+
 	}
+
+
 	private static void ShareScreenShotCallback(IResult result)
 	{
 		Debug.Log("ShareCallback");
@@ -112,6 +131,7 @@ public static class FBShare
 		// Check for 'publish_actions' as the Scores API requires it for submitting scores
 		if (FBLogin.HavePublishActions)
 		{
+			Debug.Log("have publish actions");
 			var query = new Dictionary<string, string>();
 			query["score"] = score.ToString();
 			FB.API(
@@ -128,6 +148,7 @@ public static class FBShare
 		}
 		else
 		{
+			Debug.Log("haven't publish action");
 			// Showing context before prompting for publish actions
 			// See Facebook Login Best Practices: https://developers.facebook.com/docs/facebook-login/best-practices
 			//  PopupScript.SetPopup("Prompting for Publish Permissions for Scores API", 4f, delegate

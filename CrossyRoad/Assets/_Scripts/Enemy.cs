@@ -228,15 +228,11 @@ public class Enemy : MonoBehaviour
 	{
 		while (true)
 		{
-			//if (!isDead)
-			//{
-			//yield return new WaitForSeconds(.1f);
 			PathRequestManager.RequestPath(transform.position, target2, OnPathFound);
 
-			yield return new WaitForSeconds(.2f);
+			yield return new WaitForSeconds(.3f);
 			if (isDead)
 				yield break;
-			//}
 		}
 	
 	}

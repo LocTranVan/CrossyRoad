@@ -17,7 +17,7 @@ MonoBehaviour:
   appIds:
   - 150579882366535
   appLabels:
-  - App Name
+  - appname
   cookie: 1
   logging: 1
   status: 1

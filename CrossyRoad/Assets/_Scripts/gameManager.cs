@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using Facebook.Unity;
 public class gameManager : MonoBehaviour {
 
 	public static gameManager intance;
@@ -20,13 +21,15 @@ public class gameManager : MonoBehaviour {
 	private GameObject currentCharater;
 	public GameObject defautCharacter;
 	public GameObject pet;
+	public GameObject PanelTopScore;
 	public Material materialSnowFlower, materialNormal;
 
+	public GameObject panelAchivements;
 	private int _score, _coins = 30;
 	
 
 	private bool reloadGame;
-
+	public Dictionary<string, string> AllSettings;
 	private enum Maps
 	{
 		winter, summer
@@ -45,6 +48,7 @@ public class gameManager : MonoBehaviour {
 		currentCharater = defautCharacter;
 		highScore = PlayerPrefs.GetInt("highscore");
 		Debug.Log(highScore);
+		AllSettings = new Dictionary<string, string>();
 	}
 
 	public void IntancePet()
@@ -65,10 +69,26 @@ public class gameManager : MonoBehaviour {
 		PanelSetting.SetActive(true);
 	}
 	public void EndGame()
-	{	
+	{
 		if (!reloadGame)
 		{
 			EndPanel.SetActive(true);
+			if (FB.IsLoggedIn &&
+				GameStateManager.HighScore < _score)
+			{
+				FBShare.PostScore(_score);
+				GameStateManager.HighScore = _score;
+				RedrawPanelTopScore();
+			}else
+			{
+				if(_score > PlayerPrefs.GetInt("highscore"))
+				{
+					PlayerPrefs.SetInt("highscore", highScore);
+					RedrawPanelTopScore();
+				}
+
+			}
+		
 			reloadGame = true;
 
 			//player = GameObject.Find("Player");
@@ -84,6 +104,11 @@ public class gameManager : MonoBehaviour {
 			ni.ResetLife();
 		}
 		btnSaveMe.SetActive(false);
+	}
+	public void RedrawPanelTopScore()
+	{
+		PanelTopScore.SetActive(false);
+		PanelTopScore.SetActive(true);
 	}
 	public void startUIPlayGame()
 	{
@@ -125,6 +150,18 @@ public class gameManager : MonoBehaviour {
 			canvas.GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
 		}
 		
+	}
+	public void setAllSettings(string key, string value)
+	{
+		if (AllSettings.ContainsKey(key))
+		{
+			AllSettings.Remove(key);
+			AllSettings.Add(key, value);
+		}
+		else
+		{
+			AllSettings.Add(key, value);
+		}
 	}
 	public bool buyCharacter(int price)
 	{
@@ -213,6 +250,11 @@ public class gameManager : MonoBehaviour {
 	public void setScore()
 	{
 		_score ++;
+		if (_score == 10 && GameStateManager.HighScore <= 10 &&FBLogin.HavePublishActions)
+		{
+			DOTweenAnimation tl = panelAchivements.GetComponent<DOTweenAnimation>();
+			tl.DORestartById("Move");
+		}
 		if (_score > highScore)
 			PlayerPrefs.SetInt("highscore", _score);
 		PanelInGame.GetComponent<ScoreUI>().setScoreAndChangeSprite(_score);

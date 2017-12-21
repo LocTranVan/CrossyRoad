@@ -31,6 +31,8 @@ public class GameMenu : MonoBehaviour
 	public GameObject panelSocres;
 	public GameObject prefabScore;
 
+	public GameObject panelPersonInfo;
+	public GameObject panelAchivemets;
 	private bool share, score;
     #region Built-In
     void Awake()
@@ -98,9 +100,11 @@ public class GameMenu : MonoBehaviour
         // App Launch events should be logged on app launch & app resume
         // See more: https://developers.facebook.com/docs/app-events/unity#quickstart
         FBAppEvents.LaunchEvent();
+		
 
-        if (FB.IsLoggedIn) 
+		if (FB.IsLoggedIn) 
         {
+
             Debug.Log("Already logged in");
             OnLoginComplete();
         }
@@ -113,15 +117,74 @@ public class GameMenu : MonoBehaviour
         Debug.Log("OnLoginClick");
 
 
-        // Call Facebook Login for Read permissions of 'public_profile', 'user_friends', and 'email'
-        FBLogin.PromptForLogin(OnLoginComplete);
+		// Call Facebook Login for Read permissions of 'public_profile', 'user_friends', and 'email'
+		//if(FBLogin)
+		FBLogin.PromptForLogin(OnLoginComplete);
+		//FB.LogInWithPublishPermissions(new List<string>() { "publish_actions" }, Share);
+	
 		score = true;
 		share = false;
     }
-	public void Share()
+
+	public void Share(IResult result)
 	{
+		if (result.Error != null)
+		{
+			Debug.LogError(result.Error);
+			return;
+		}
+		Debug.Log(result.RawResult);
+		FBShare.TakeScreenshot();
+	}
+	public void CountAchivement()
+	{
+		if (!FB.IsInitialized)
+		{
+			FB.Init(InitCallback);
+		}
+		if (FB.IsLoggedIn)
+		{
+			panelAchivemets.SetActive(true);
+			FBAchievements.ViewAchievement();
+		}
+		else
+		{
+			
+			FBLogin.PromptForLogin(OnAchivementCom);
+		}
+	}
+	public void OnAchivementCom()
+	{
+		panelAchivemets.SetActive(true);
+		FBAchievements.ViewAchievement();
+	}
+	public void ViewAchivements()
+	{
+		if (!FB.IsInitialized)
+		{
+			FB.Init(InitCallback);
+		}
+		if (FBLogin.HavePublishActions)
+		{
 		
-		FBShare.ShareBrag();
+			FBAchievements.GiveAchievement("");
+		}
+		else
+		{
+			FB.LogInWithPublishPermissions(new List<string>() { "publish_actions" }, Achivements);
+		}
+	}
+	public void Achivements(IResult result)
+	{
+		if (result.Error != null)
+		{
+			Debug.LogError(result.Error);
+			return;
+		}
+		Debug.Log(result.RawResult);
+
+		//FBAchievements.GiveAchievement("");
+		FBAchievements.DeleteAchievement("");
 	}
     private void OnLoginComplete()
     {
@@ -137,17 +200,15 @@ public class GameMenu : MonoBehaviour
 
 
 		// Begin querying the Graph API for Facebook data
-		if (score)
-		{
-			 FBGraph.GetPlayerInfo();
+	
+			FBGraph.GetPlayerInfo();
 			FBGraph.GetFriends();
-			 FBGraph.GetInvitableFriends();
-			 FBGraph.GetScores();
-		}
-		if (share) {
-			FBShare.TakeScreenshot();
-			//FBShare.ShareBrag();
-		}
+			FBGraph.GetInvitableFriends();
+			FBGraph.GetScores();
+		
+
+		//FB.LogInWithPublishPermissions(new List<string>() { "publish_actions" }, Share);
+		//ShareImage();
 		//FBShare.ShareBrag();
 		//FBShare.PostScore();
 	}
@@ -157,12 +218,47 @@ public class GameMenu : MonoBehaviour
 		{
 			FB.Init(InitCallback);
 		}
-		FBLogin.PromptForLogin(OnLoginComplete);
-		score = false;
-		share = true;
-	}
-    #endregion
 
+		FB.LogInWithPublishPermissions(new List<string>() { "publish_actions" }, Share);
+	
+	}
+	private void OnShare()
+	{
+		if (!FB.IsLoggedIn)
+		{
+
+			return;
+		}
+	
+		FBShare.TakeScreenshot();
+		//FBShare.ShareBrag();
+	}
+	private void AuthCallback(IResult result)
+	{
+		Debug.Log("share Hi");
+		if (result.Error != null)
+		{
+			Debug.LogError(result.Error);
+			return;
+		}
+	
+		if ((AccessToken.CurrentAccessToken.Permissions as List<string>).Contains("publish_actions"))
+		{
+			Debug.Log("have publish actions");
+		}
+		else
+		{
+			Debug.Log("no publish actions");
+		}
+		//if(FBLogin)
+		//FBShare.TakeScreenshot();
+		Debug.Log(result.RawResult);
+	}
+	#endregion
+	public void Logout()
+	{
+		FB.LogOut();
+	}
     #region GUI
     // Method to update the Game Menu User Interface
     public void RedrawUI ()
@@ -170,22 +266,27 @@ public class GameMenu : MonoBehaviour
 		if (FB.IsLoggedIn)
 		{
 			// Swap GUI Header for a player after login
-			/*
-			GameObject ob = panelUser[0];
-			PersonInfo person = ob.GetComponent<PersonInfo>();
+			gameManager.intance.RedrawPanelTopScore();
+
+			UIManager panelAll = GetComponent<UIManager>();
+			panelAll.setActivePanel();
+
+			PersonLogin personLogin = panelPersonInfo.GetComponent<PersonLogin>();
 			if (GameStateManager.UserTexture != null && !string.IsNullOrEmpty(GameStateManager.Username))
 			{
-				person.setTxtName(GameStateManager.Username);
-				person.setImage(GameStateManager.UserTexture);
+				personLogin.setTxtName(GameStateManager.Username);
+				personLogin.setImage(GameStateManager.UserTexture);
 			}
 			if (GameStateManager.HighScore > 0)
-				person.setTxtScore(GameStateManager.HighScore.ToString());
+				personLogin.setTxtScore(GameStateManager.HighScore.ToString());
 
-		*/
+		
 
 			var scores = GameStateManager.Scores;
 			if (GameStateManager.ScoresReady && scores.Count > 0)
 			{
+				//personLogin.setStandings("1", scores.Count.ToString());
+
 
 				Transform[] childLBElements = panelSocres.GetComponentsInChildren<Transform>();
 				foreach (Transform childObject in childLBElements)
@@ -201,6 +302,11 @@ public class GameMenu : MonoBehaviour
 				{
 					GameObject LBgameObject = Instantiate(prefabScore) as GameObject;
 					PersonInfo LBelement = LBgameObject.GetComponent<PersonInfo>();
+
+					var entry = (Dictionary<string, object>)scores[i];
+					var user = (Dictionary<string, object>)entry["user"];
+					if(((string)user["name"]).Split(new char[] { ' ' })[0].Contains(GameStateManager.Username))
+						personLogin.setStandings((i + 1).ToString(), scores.Count.ToString());
 
 					LBelement.SetupElement(i + 1, scores[i]);
 					RectTransform rect = LBelement.GetComponent<RectTransform>();

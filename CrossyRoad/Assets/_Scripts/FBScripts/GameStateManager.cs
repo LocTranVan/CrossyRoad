@@ -69,6 +69,10 @@ public class GameStateManager : MonoBehaviour
     public static List<object> Friends;
     public static Dictionary<string, Texture> FriendImages = new Dictionary<string, Texture>();
     public static List<object> InvitableFriends = new List<object>();
+	public static List<string> Achivements = new List<string>();
+	public static string[] AchivementsUrl = { "https://loctranvan-89.herokuapp.com/index.htm",
+		"https://achivements2.herokuapp.com/index.htm", "https://achivements3.herokuapp.com/index.htm",
+		"https://achivements4.herokuapp.com/index.htm" };
         // Scores
     public static bool ScoresReady;
     private static List<object> scores;
@@ -135,4 +139,14 @@ public class GameStateManager : MonoBehaviour
             gMenuObj.GetComponent<GameMenu>().RedrawUI();
         }
     }
+	public static void gAchivementsRedraw()
+	{
+		GameObject gAchivements = GameObject.Find("PanelAchivements");
+		//gAchivements.SetActive(true);
+		if (gAchivements)
+		{
+			gAchivements.GetComponent<AchivementsMana>().Redraw();
+
+		}
+	}
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 public class UITabStartGame : MonoBehaviour {
 	public GameObject btTap;
 	public GameObject ImageCrossy;
@@ -10,12 +11,12 @@ public class UITabStartGame : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 	
-
-		Debug.Log(currentImage);
 	}	
 	private void OnEnable()
 	{
 		btTap.SetActive(true);
+		Button bt = GetComponent<Button>();
+		bt.enabled = true;
 		ButtonChoosePlayer.SetActive(true);
 		ButtonMore.SetActive(true);
 		if (ImageCrossy.transform.position.x > 1000)
@@ -33,6 +34,9 @@ public class UITabStartGame : MonoBehaviour {
 		ImageCrossy.GetComponent<DOTweenAnimation>().DORestart();
 		ButtonChoosePlayer.SetActive(false);
 		ButtonMore.SetActive(false);
+		Button bt = GetComponent<Button>();
+		bt.enabled = false;
+		
 	}
 	public void enableTabStartGame()
 	{

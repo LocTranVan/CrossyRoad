@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour {
 	private bool ON = true;
 	private GameObject DirectionalLight;
 
+	private string MUTE = "mute", OnValue = "on", OffValue = "off", QUALITY = "quality", SADOW = "sadow";
 
 	private void Start()
 	{
@@ -29,18 +30,33 @@ public class UIManager : MonoBehaviour {
 
 	public void setMute()
 	{
+		string tam;
 		if (ON)
+		{
 			AudioListener.volume = 0;
+			tam = OffValue;
+		}
 		else
+		{
+			tam = OnValue;
 			AudioListener.volume = 1;
-		
+		}
+		gameManager.intance.setAllSettings(MUTE, tam);
 	}
 	public void setQuality()
 	{
+		string tam;
 		if (ON)
+		{
 			QualitySettings.SetQualityLevel(1);
+			tam = OffValue;
+		}
 		else
+		{
+			tam = OnValue;
 			QualitySettings.SetQualityLevel(5);
+		}
+		gameManager.intance.setAllSettings(QUALITY, tam);
 	}
 	public void setMore()
 	{
@@ -73,18 +89,32 @@ public class UIManager : MonoBehaviour {
 			ob.SetActive(false);
 		}
 	}
+	public void setUnActivePanel()
+	{
+		foreach (GameObject ob in PanelActive)
+		{
+			ob.SetActive(false);
+		}
+	}
 	public void turnOffShadow()
 	{
 		DirectionalLight = GameObject.Find("Directional Light");
 		Light light = DirectionalLight.GetComponent<Light>();
+		string tam;
 		if (light != null)
 		{
 			if (ON)
 			{
 				light.shadows = LightShadows.None;
+				ON = !ON;
+				tam = OffValue;
+				gameManager.intance.setAllSettings(SADOW, tam);
 				return;
 			}
-			light.shadows = LightShadows.Soft;
+			tam = OnValue;
+			ON = !ON;
+			gameManager.intance.setAllSettings(SADOW, tam);
+			light.shadows = LightShadows.Hard;
 
 		}
 	}
@@ -110,4 +140,6 @@ public class UIManager : MonoBehaviour {
 		
 
 	}
+
+
 }

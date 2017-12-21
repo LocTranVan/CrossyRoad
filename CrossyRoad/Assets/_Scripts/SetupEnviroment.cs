@@ -31,11 +31,12 @@ public class SetupEnviroment : MonoBehaviour {
 	}
 	void Start () {
 		allStrips = new List<GameObject>();
-		PlayerPrefs.SetInt("highscore", 0);
+		//PlayerPrefs.SetInt("highscore", 0);
 		if (PlayerPrefs.GetInt("highscore") <= 0)
 			Introduction();
 		else
 		{
+			Introl.SetActive(false);
 			int k = 0;
 			do
 			{

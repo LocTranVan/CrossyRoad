@@ -7,11 +7,26 @@ public class ScoreUI : MonoBehaviour {
 	public GameObject[] scores, numberCoins;
 	public GameObject panelCoins;
 	public List<Sprite> spriteNumberSocre, spriteNumberCoins;
+	public bool TopScores;
 	// Use this for initialization
 	void Start () {
 		
 	}
-	
+	private void OnEnable()
+	{
+		if (TopScores)
+		{
+			if(GameStateManager.HighScore > 0)
+			{
+				setScoreAndChangeSprite(GameStateManager.HighScore);
+			}
+			else
+			{
+				setScoreAndChangeSprite(PlayerPrefs.GetInt("highscore"));
+			}
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
 		

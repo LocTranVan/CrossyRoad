@@ -25,7 +25,7 @@ public class Character : MonoBehaviour
 	public GameObject snowFalling;
 	public GameObject YardPath;
 	private Vector3 maxPosition = Vector3.zero;
-
+	private Vector3 touchOrigin = Vector3.zero;
 	private Texture2D snapshot;
 	//Audio
 	private AudioSource audioSource;
@@ -74,7 +74,7 @@ public class Character : MonoBehaviour
 		rigidbody = GetComponent<Rigidbody>();
 		anim = player.GetComponent<Animation>();
 		audioSource = GetComponent<AudioSource>();
-		if(gameManager.intance.getCharacter() != null)
+		if (gameManager.intance.getCharacter() != null)
 		{
 			GameObject currentCharater = gameManager.intance.getCharacter();
 			gameObject.GetComponentInChildren<MeshFilter>().mesh = currentCharater.GetComponentInChildren<MeshFilter>().mesh;
@@ -88,18 +88,89 @@ public class Character : MonoBehaviour
 	{
 		if (!jump)
 			HandleInput();
+	}
 
+	private void HandleInput()
+	{
+		int horizontal = 0;
+		int vertical = 0;
+#if UNITY_STANDALONE
+
+		if (Input.GetKeyUp(KeyCode.UpArrow))
+		{
+			vertical = 1;
+		}
+		if (Input.GetKeyUp(KeyCode.DownArrow))
+		{
+			vertical = -1;
+			
+		}
+		if (Input.GetKeyUp(KeyCode.RightArrow))
+		{
+			horizontal = 1;
+		}
+		if (Input.GetKeyUp(KeyCode.LeftArrow))
+		{
+			horizontal = -1;
+		
+		}
 		if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
 		{
 			setUpForShrug();
 			preesKey = !preesKey;
 		}
-	}
+#endif
+#if UNITY_ANDROID
+		
+		if (Input.touchCount > 0)
+			{
 
-	private void HandleInput()
-	{
+			Touch myTouch = Input.touches[0];
+			if (myTouch.phase == TouchPhase.Began)
+				{
+				touchOrigin = myTouch.position;
+				setUpForShrug();
+				preesKey = !preesKey;
+			}
+			//If the touch phase is not Began, and instead is equal to Ended and the x of touchOrigin is greater or equal to zero:
+			else if (myTouch.phase == TouchPhase.Ended && touchOrigin.x >= 0)
+				{
+					//Set touchEnd to equal the position of this touch
+					Vector2 touchEnd = myTouch.position;
+					float x = touchEnd.x - touchOrigin.x;
+					float y = touchEnd.y - touchOrigin.y;
 
-		if (Input.GetKeyUp(KeyCode.UpArrow))
+					touchOrigin.x = -1;
+				if (Mathf.Abs(x) > Mathf.Abs(y))
+				{
+					horizontal = x > 0 ? 1 : -1;
+				}
+				else 
+				{
+					vertical = y >= 0 ? 1 : -1;
+				}
+			
+			}
+		
+
+		}
+
+#endif
+
+		if (horizontal == 1)
+		{
+			setUpForJump(new Vector3(0, 0, 0));
+			endMarker = startMarker - disJumpHorizontal;
+			jump = checkCounldForJump(startMarker, endMarker);
+		}
+		else if (horizontal == -1)
+		{
+			setUpForJump(new Vector3(0, 180, 0));
+			endMarker = startMarker + disJumpHorizontal;
+
+			jump = checkCounldForJump(startMarker, endMarker);
+		}
+		else if (vertical == 1)
 		{
 			setUpForJump(new Vector3(0, -90, 0));
 			endMarker = startMarker + disJumpVertical;
@@ -111,26 +182,18 @@ public class Character : MonoBehaviour
 				maxPosition = endMarker;
 			}
 		}
-		if (Input.GetKeyUp(KeyCode.DownArrow))
+		else if(vertical == -1)
 		{
 			setUpForJump(new Vector3(0, 90, 0));
 			endMarker = startMarker - disJumpVertical; ;
 
 			jump = checkCounldForJump(startMarker, endMarker);
 		}
-		if (Input.GetKeyUp(KeyCode.RightArrow))
-		{
-			setUpForJump(new Vector3(0, 0, 0));
-			endMarker = startMarker - disJumpHorizontal;
-			jump = checkCounldForJump(startMarker, endMarker);
-		}
-		if (Input.GetKeyUp(KeyCode.LeftArrow))
-		{
-			setUpForJump(new Vector3(0, 180, 0));
-			endMarker = startMarker + disJumpHorizontal;
 
-			jump = checkCounldForJump(startMarker, endMarker);
-		}
+
+
+
+		
 	}
 
 	private void setUpForShrug()
@@ -208,6 +271,7 @@ public class Character : MonoBehaviour
 	}
 	public void TakeDamage()
 	{
+		StartCoroutine(TakeSnapshot(Screen.width, Screen.height, 400, 400));
 		hitTopSide = Physics.Linecast(transform.position, transform.position + disJumpVertical * 1 / 2, Cars);
 		hitLeftSide = Physics.Linecast(transform.position, transform.position - disJumpHorizontal * 1 / 2, Cars);
 		hitRightSide = Physics.Linecast(transform.position, transform.position + disJumpHorizontal * 1 / 2, Cars);
@@ -220,8 +284,8 @@ public class Character : MonoBehaviour
 		IsDead = true;
 		timeScale = Time.time;
 
-		//StartCoroutine(TakeSnapshot(Screen.width, Screen.height, 400, 400));
-		StartCoroutine(TakeSnapshot(240, 290, 400, 400));
+		
+		//StartCoroutine(TakeSnapshot(240, 290, 400, 400));
 		//	Sprite mySprite = Sprite.Create(snapshot, new Rect(0.0f, 0.0f, 240, 290), new Vector2(5, 5), 100f);
 
 
@@ -230,13 +294,14 @@ public class Character : MonoBehaviour
 	}
 	public IEnumerator TakeSnapshot(int width, int height, int posX, int posY)
 	{
-
+	
 		yield return new WaitForEndOfFrame();
 		Texture2D texture = new Texture2D(width, height, TextureFormat.RGB24, true);
 
 		texture.ReadPixels(new Rect(0, 0, width, height), 0, 0);
 
 		texture.Apply();
+		snapshot = null;
 	//	Sprite mySprite = Sprite.Create(texture, new Rect(0.0f, 0.0f, 240, 20), new Vector2(50, 15), 100f);
 		snapshot = texture;
 
