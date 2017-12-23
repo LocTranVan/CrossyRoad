@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour {
 	// Use this for initialization
 	public GameObject PanelParent, btNoSadow, btblockRotation;
 	// For Bt More
-	public GameObject btPet, btMap, btXhang;
+	public GameObject btPet, btMap, btXhang, btAchivements, btShare;
 	// Sprite
 	public GameObject[] PanelUnActive, PanelActive;
 
@@ -24,8 +24,6 @@ public class UIManager : MonoBehaviour {
 		image = GetComponent<Image>();
 		if (image != null)
 			currentImageBt = image.sprite;
-
-		
 	}
 
 	public void setMute()
@@ -41,7 +39,7 @@ public class UIManager : MonoBehaviour {
 			tam = OnValue;
 			AudioListener.volume = 1;
 		}
-		gameManager.intance.setAllSettings(MUTE, tam);
+		ChangeSpriteWhenPress();
 	}
 	public void setQuality()
 	{
@@ -56,23 +54,30 @@ public class UIManager : MonoBehaviour {
 			tam = OnValue;
 			QualitySettings.SetQualityLevel(5);
 		}
-		gameManager.intance.setAllSettings(QUALITY, tam);
 	}
 	public void setMore()
 	{
 		if (ON)
 		{
-			btPet.SetActive(false);
-			btXhang.SetActive(false);
-			btMap.SetActive(false);
-		}
-		else
-		{
+			btAchivements.SetActive(true);
 			btPet.SetActive(true);
 			btXhang.SetActive(true);
 			btMap.SetActive(true);
+#if UNITY_ANDROID
+			btShare.SetActive(true);
+#endif
 		}
-
+		else
+		{
+			btPet.SetActive(false);
+			btXhang.SetActive(false);
+			btMap.SetActive(false);
+			btAchivements.SetActive(false);
+#if UNITY_ANDROID
+			btShare.SetActive(false);
+#endif
+		}
+		ChangeSpriteWhenPress();
 	}
 	public void setBack()
 	{
@@ -96,27 +101,22 @@ public class UIManager : MonoBehaviour {
 			ob.SetActive(false);
 		}
 	}
+	public void ExitGame()
+	{
+		Application.Quit();
+	}
 	public void turnOffShadow()
 	{
 		DirectionalLight = GameObject.Find("Directional Light");
 		Light light = DirectionalLight.GetComponent<Light>();
-		string tam;
 		if (light != null)
 		{
 			if (ON)
-			{
 				light.shadows = LightShadows.None;
-				ON = !ON;
-				tam = OffValue;
-				gameManager.intance.setAllSettings(SADOW, tam);
-				return;
-			}
-			tam = OnValue;
-			ON = !ON;
-			gameManager.intance.setAllSettings(SADOW, tam);
-			light.shadows = LightShadows.Hard;
-
+			else
+				light.shadows = LightShadows.Hard;
 		}
+		ChangeSpriteWhenPress();
 	}
 	public void LockRotation()
 	{
@@ -126,6 +126,17 @@ public class UIManager : MonoBehaviour {
 		}
 		else
 			Screen.orientation = ScreenOrientation.AutoRotation;
+		ChangeSpriteWhenPress();
+	}
+	public void setON(string tam)
+	{
+		if (tam == OnValue)
+			ON = true;
+		else ON = false;
+	}
+	public bool getON()
+	{
+		return ON;
 	}
 	public void ChangeSpriteWhenPress()
 	{
@@ -137,9 +148,5 @@ public class UIManager : MonoBehaviour {
 		}	
 		image.sprite = currentImageBt;
 		ON = true;
-		
-
 	}
-
-
 }

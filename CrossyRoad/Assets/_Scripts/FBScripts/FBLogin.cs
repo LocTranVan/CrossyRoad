@@ -44,9 +44,9 @@ public static class FBLogin
 	//
 	public static void PromptForLogin (Action callback = null)
     {
-        // Login for read permissions
-        // https://developers.facebook.com/docs/unity/reference/current/FB.LogInWithReadPermissions
-        FB.LogInWithReadPermissions(readPermissions, delegate (ILoginResult result)
+		// Login for read permissions
+		// https://developers.facebook.com/docs/unity/reference/current/FB.LogInWithReadPermissions
+		FB.LogInWithReadPermissions(readPermissions, delegate (ILoginResult result)
         {
             Debug.Log("LoginCallback");
             if (FB.IsLoggedIn)

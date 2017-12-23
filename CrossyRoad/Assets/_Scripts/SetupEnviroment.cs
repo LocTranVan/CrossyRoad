@@ -91,11 +91,21 @@ public class SetupEnviroment : MonoBehaviour {
 	{
 		previousStrip = getStrip();
 		positionPreviousStrip += new Vector3(offset, 0, 0);
-		allStrips.Add(Instantiate(strips[previousStrip], getPositionStrip(), Quaternion.identity));
+		allStrips.Add(Instantiate(strips[previousStrip], getPositionStrip(),
+			Quaternion.identity));
 	}
 	private int getStrip()
 	{
-		int currentStrip = Random.Range(GRASS, OCEAN + 1);
+		// 0 1 = grass
+		int scores = (int)(gameManager.intance.getScore() / 5);
+
+		int startCurrentStrip = Random.Range(0, scores);
+		if (startCurrentStrip <= 1)
+			startCurrentStrip = GRASS;
+		else
+			startCurrentStrip = ONEWAYSTREET;
+
+		int currentStrip = Random.Range(startCurrentStrip, OCEAN + 1);
 		switch (currentStrip)
 		{
 			case GRASS:
@@ -103,9 +113,11 @@ public class SetupEnviroment : MonoBehaviour {
 			case GRASSDARK:
 				return (previousStrip == GRASSDARK) ? GRASS : GRASSDARK;
 			case TWOWAYSTREET:
-				return ((previousStrip == ONEWAYSTREET) || (previousStrip == TWOWAYSTREET)) ? TWOWAYSTREET : ONEWAYSTREET;
+				return ((previousStrip == ONEWAYSTREET) || 
+					(previousStrip == TWOWAYSTREET)) ? TWOWAYSTREET : ONEWAYSTREET;
 			case ONEWAYSTREET:
-				return ((previousStrip == ONEWAYSTREET) || (previousStrip == TWOWAYSTREET)) ? TWOWAYSTREET : ONEWAYSTREET;
+				return ((previousStrip == ONEWAYSTREET) ||
+					(previousStrip == TWOWAYSTREET)) ? TWOWAYSTREET : ONEWAYSTREET;
 			default:
 				return currentStrip;
 		}

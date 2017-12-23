@@ -9,8 +9,11 @@ public class Eagle : MonoBehaviour {
 	private GameObject player;
 	private bool hitPlayer;
 	private Vector3 pLast;
+	public AudioClip hitAudio;
+	private AudioSource audioSource;
 	void Start () {
 		pLast = transform.position;
+		audioSource = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -37,8 +40,11 @@ public class Eagle : MonoBehaviour {
 		if(other.gameObject.name == "uniHorse")
 		{
 			Debug.Log("hit");
+			audioSource.PlayOneShot(hitAudio);
 			hitPlayer = true;
 			player = other.gameObject;
+			Character tf = player.GetComponentInParent<Character>();
+			tf.TakeDamage();
 		}
 	}
 }

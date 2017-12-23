@@ -14,8 +14,8 @@ public class SpawCoin : MonoBehaviour {
 		if (Random.Range(0, 100) < perCentSpawCoin)
 		{
 			int numberP = Random.Range(-intdextLeght, intdextLeght + 1);
-			GameObject coin = Instantiate(Coin, gameObject.transform.position + positionCenter +
-				new Vector3(0, 0, numberP * offset), Quaternion.identity);
+			GameObject coin = Instantiate(Coin, gameObject.transform.position +
+				positionCenter + new Vector3(0, 0, numberP * offset), Quaternion.identity);
 			coin.GetComponent<Coin>().init(gameObject);
 		}
 	}

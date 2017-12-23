@@ -9,8 +9,8 @@ public class gameManager : MonoBehaviour {
 
 	public static gameManager intance;
 	private int highScore;
-	public GameObject EndPanel;
-	public GameObject btnSaveMe;
+	public GameObject EndPanel, btnPause;
+	public GameObject btnSaveMe, btnExit;
 	// PanelUI
 	public GameObject ChoosePlayerPanel, PanelResetGame,
 		imageCrossyRoad, PanelInGame, PanelPause;
@@ -25,11 +25,10 @@ public class gameManager : MonoBehaviour {
 	public Material materialSnowFlower, materialNormal;
 
 	public GameObject panelAchivements;
-	private int _score, _coins = 30;
-	
-
+	private int _score, _coins;
+	public GameObject[] settings;
+	public GameObject txtNamePost;
 	private bool reloadGame;
-	public Dictionary<string, string> AllSettings;
 	private enum Maps
 	{
 		winter, summer
@@ -46,9 +45,10 @@ public class gameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		currentCharater = defautCharacter;
+	//	PlayerPrefs.DeleteAll();
 		highScore = PlayerPrefs.GetInt("highscore");
 		Debug.Log(highScore);
-		AllSettings = new Dictionary<string, string>();
+
 	}
 
 	public void IntancePet()
@@ -58,7 +58,6 @@ public class gameManager : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		
 	}
 	public void checkeAllCharacter()
 	{
@@ -73,6 +72,7 @@ public class gameManager : MonoBehaviour {
 		if (!reloadGame)
 		{
 			EndPanel.SetActive(true);
+			btnPause.SetActive(false);
 			if (FB.IsLoggedIn &&
 				GameStateManager.HighScore < _score)
 			{
@@ -105,6 +105,12 @@ public class gameManager : MonoBehaviour {
 		}
 		btnSaveMe.SetActive(false);
 	}
+	public void setActiveTextSuccess()
+	{
+		txtNamePost.SetActive(true);
+		DOTweenAnimation dot = txtNamePost.GetComponent<DOTweenAnimation>();
+		dot.DORestartById("text");
+	}
 	public void RedrawPanelTopScore()
 	{
 		PanelTopScore.SetActive(false);
@@ -127,7 +133,11 @@ public class gameManager : MonoBehaviour {
 			if (currentCharater != null)
 			{
 				player.GetComponentInChildren<MeshFilter>().mesh = currentCharater.GetComponentInChildren<MeshFilter>().mesh;
+
 				player.GetComponentInChildren<Renderer>().material = currentCharater.GetComponentInChildren<Renderer>().material;
+				Market mark = currentCharater.GetComponent<Market>();
+				player.GetComponent<Character>().setAudioDead(mark.getAudio());
+				player.GetComponent<Character>().setNormalAudio(mark.getAudioNormal());
 			}
 		}
 
@@ -138,8 +148,6 @@ public class gameManager : MonoBehaviour {
 		camera = GameObject.FindGameObjectWithTag("MainCamera");
 		player.GetComponent<Character>().isPause = false;
 		camera.GetComponent<CameraMovement>().setPause(false);
-
-
 	}
 	public void init()
 	{
@@ -149,20 +157,40 @@ public class gameManager : MonoBehaviour {
 			Debug.Log("set Camera");
 			canvas.GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
 		}
-		
-	}
-	public void setAllSettings(string key, string value)
-	{
-		if (AllSettings.ContainsKey(key))
+	
+		foreach(GameObject key in settings)
 		{
-			AllSettings.Remove(key);
-			AllSettings.Add(key, value);
-		}
-		else
-		{
-			AllSettings.Add(key, value);
+			UIManager keys = key.GetComponent<UIManager>();
+			if (!keys.getON())
+			{
+				keys.setON("on");
+				switch (keys.name)
+				{
+					case "btMute":
+						keys.setMute();
+						break;
+					case "btNoShadows":
+						keys.turnOffShadow();
+						break;
+					case "btRotationLock":
+						keys.LockRotation();
+						break;
+					case "BtMore":
+						keys.setON("");
+						keys.setMore();
+						Debug.Log("set More");
+						
+					//	keys.ChangeSpriteWhenPress();
+						break;
+					default:
+						break;
+
+				}
+			}
 		}
 	}
+	
+
 	public bool buyCharacter(int price)
 	{
 		if (_coins >= price)
@@ -211,7 +239,7 @@ public class gameManager : MonoBehaviour {
 		ChoosePlayerPanel.SetActive(true);
 		ScoreUI scoreUI = ChoosePlayerPanel.GetComponent<ScoreUI>();
 		scoreUI.setNumberCoinAndChangeSprite(_coins);
-		Debug.Log("coin" + _coins);
+		//Debug.Log("coin" + _coins);
 	}
 	public void ActiveBt()
 	{
@@ -219,19 +247,11 @@ public class gameManager : MonoBehaviour {
 	}
 	public void Play()
 	{
-		
-
 		EndPanel.SetActive(false);
 		PanelResetGame.SetActive(true);
-		//PanelResetGame.GetComponent<DOTweenAnimation>().DORestart();
+		btnPause.SetActive(true);
 		PanelResetGame.GetComponent<DOTweenAnimation>().DORestartById("fade");
 		imageCrossyRoad.GetComponent<DOTweenAnimation>().DORestart();
-
-
-
-	
-	//	LoadScene();
-		//Invoke("LoadScene",1f);
 	}
 	public void LoadScene()
 	{
@@ -245,6 +265,7 @@ public class gameManager : MonoBehaviour {
 		Physics.IgnoreLayerCollision(8, 12, false);
 	
 		reloadGame = false;
+		btnExit.SetActive(true);
 		Invoke("init", 1f);
 	}
 	public void setScore()
@@ -261,6 +282,7 @@ public class gameManager : MonoBehaviour {
 	}
 	public void setCoin()
 	{
+		Debug.Log("Collect Coin"+ _coins);
 		_coins ++;
 		PanelInGame.GetComponent<ScoreUI>().setNumberCoinAndChangeSprite(_coins);
 	}

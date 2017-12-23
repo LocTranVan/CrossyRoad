@@ -11,7 +11,7 @@ public class Grid : MonoBehaviour {
 	public TerrainType[] walkableRegions;
 	Dictionary<int,int> walkableRegionsDictionary = new Dictionary<int, int>();
 	LayerMask walkableMask;
-	public LayerMask cars, wood;
+	public LayerMask cars, wood, Ocean;
 	Node[,] grid;
 
 	float nodeDiameter;
@@ -50,100 +50,71 @@ public class Grid : MonoBehaviour {
 
 		for (int x = 0; x < gridSizeX; x++)
 		{
+			string t = x.ToString();
 			for (int y = 0; y < gridSizeY; y++)
 			{
 				Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * (nodeDiameter + 1) + nodeRadius + 0.5f) + Vector3.forward * (y * nodeDiameter + nodeRadius);
 				bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
 				Ray ray = new Ray(worldPoint + Vector3.up * 50, Vector3.down);
+
 				Node Seeker = NodeFromWorldPoint(startPos);
 				RaycastHit hit;
-
-				if (walkable)
+				if (Physics.Raycast(ray, out hit, 100, Ocean))
 				{
-				
-					if (Physics.Raycast(ray, out hit, 100, cars))
-					{
-						//if (Mathf.Abs(worldPoint.x - startPos.x) <= 18)
-						//{
-							walkable = false;
-						//}
-					} 
-				}else 
+					walkable = false;
+				}
 				if (Physics.Raycast(ray, out hit, 100, wood))
 				{
-					//if (Mathf.Abs(worldPoint.x - startPos.x) <= 18)
-					//{
 					walkable = true;
-					//}
 				}
-
+			
 				grid[x, y] = new Node(walkable, worldPoint, x, y, 0);
+				
 			}
 		}
+
 		test(startPos);
 
 	
 	}
 	public void test(Vector3 startPos)
 	{
+		double eps = 1;
 		for (int x = 0; x < gridSizeX; x++)
 		{
 			for (int y = 0; y < gridSizeY; y++)
 			{
 				if (!grid[x, y].walkable)
 				{
+
 					Ray ray = new Ray(grid[x, y].worldPosition + Vector3.up * 50, Vector3.down);
 					RaycastHit hit;
 					if (Physics.Raycast(ray, out hit, 100, cars))
 					{
-					//	grid[x, y].walkable = true;
+
+						int start = 0, finish = gridSizeY;
+						float speedCar = hit.collider.gameObject.GetComponent<Car>().getSpeed();
+						
+
 						Node Seeker = NodeFromWorldPoint(startPos);
-						//		if (Mathf.Abs(x - Seeker.gridX) <= 5)
-						//	{
-						//grid[x, y].walkable = true;
-							float distanceY = Mathf.Abs(Seeker.worldPosition.x - grid[x, y].worldPosition.x) + 9;
+						if (speedCar < 0) start = y;
+						else finish = y + 1;
+						for (int k = start; k < finish; k++)
+						{
+							int dai = Mathf.Abs(k - Seeker.gridY) * 9 + Mathf.Abs(x - Seeker.gridX) * 8;
+							float tDelay = (Mathf.Abs(k - Seeker.gridY) + Mathf.Abs(x - Seeker.gridX)) * 0.5f;
+							int dCar = Mathf.Abs(k - y) * 8;
 
-							float speedCar = hit.collider.gameObject.GetComponent<Car>().getSpeed();
-						//Vector3 pCar = hit.collider.gameObject.transform.position;
-							Vector3 pCar = grid[x, y].worldPosition;
-							//float distance = 18 * speedCar / 30 ;
-						   float distance = distanceY * 8 * 30 / (9 * speedCar);
-							//Debug.Log(distance);
-
-							//grid[x, y].walkable = true;
-							float percentSpeed = speedCar / 10;
-							pCar = pCar - new Vector3(0, 0, distance);
-							Node pCarNew = NodeFromWorldPoint(pCar);
-							pCarNew.walkable = false;
-
-						if (speedCar > 0)
-							{
-							
-								//if(y > 1)
-								//grid[x, y - 1].movementPenalty += 1;
-									if(y < gridSizeY - 1)
-									grid[x, y + 1].movementPenalty -= 15;
-								if (y < gridSizeY - 2)
-								grid[x, y + 2].movementPenalty -= 5;
-							}
+							float tai = dai / 30   + tDelay;
+							float tCar = dCar / speedCar ;
+							print("tai" + tai + "tCar" +tCar);
+							if ( Mathf.Abs(tai - tCar) < eps)
+								grid[x, k].walkable = false;
 							else
 							{
-							//	pCar = pCar + new Vector3(0, 0, distance);
-							//	Node pCarNew = NodeFromWorldPoint(pCar);
-							//	pCarNew.walkable = false;
-									if (y > 1)
-										grid[x, y - 1].movementPenalty -= 15;
-									if (y > 2)
-										grid[x, y - 2].movementPenalty -= 5;
-								//if (y < gridSizeY - 1)
-								//	grid[x, y + 1].movementPenalty += 1;
 
 							}
-					//	}
-					//	else
-						//{
-						//	grid[x, y].walkable = true;
-						//}
+						}
 					}
 				}
 			}

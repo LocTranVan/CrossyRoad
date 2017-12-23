@@ -33,7 +33,10 @@ public class Wood : MonoBehaviour {
 		this.objectFather = objectFather;
 
 	}
-	
+	public float getSpeed()
+	{
+		return speed;
+	}
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.gameObject.tag == "BarieEnd")

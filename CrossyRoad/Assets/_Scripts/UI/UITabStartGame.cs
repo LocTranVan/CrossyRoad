@@ -8,6 +8,7 @@ public class UITabStartGame : MonoBehaviour {
 	public GameObject ImageCrossy;
 	public GameObject ButtonChoosePlayer, ButtonChossePet, ButtonMore;
 	private Vector3 currentImage;
+	
 	// Use this for initialization
 	void Start () {
 	

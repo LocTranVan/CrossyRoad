@@ -30,6 +30,8 @@ public class Character : MonoBehaviour
 	//Audio
 	private AudioSource audioSource;
 	public AudioClip jumpAudio, carHitAudio, getCoin;
+
+	public AudioClip deadChickenAudio, normalAudio;
 	public bool isDead
 	{
 		get
@@ -83,7 +85,10 @@ public class Character : MonoBehaviour
 		if (gameManager.intance.GetMaterial() != null)
 			snowFalling.SetActive(true);
 		else snowFalling.SetActive(false);
+
+
 	}
+
 	void Update()
 	{
 		if (!jump)
@@ -117,11 +122,12 @@ public class Character : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
 		{
 			setUpForShrug();
-			preesKey = !preesKey;
+			preesKey = true;	
+			transform.localScale = endJump;
 		}
 #endif
 #if UNITY_ANDROID
-		
+
 		if (Input.touchCount > 0)
 			{
 
@@ -131,6 +137,7 @@ public class Character : MonoBehaviour
 				touchOrigin = myTouch.position;
 				setUpForShrug();
 				preesKey = !preesKey;
+				
 			}
 			//If the touch phase is not Began, and instead is equal to Ended and the x of touchOrigin is greater or equal to zero:
 			else if (myTouch.phase == TouchPhase.Ended && touchOrigin.x >= 0)
@@ -200,6 +207,7 @@ public class Character : MonoBehaviour
 	{
 		startTimeScale = Time.time;
 		shrug = !shrug;
+		//shrug = false;
 	}
 	private void Move()
 	{
@@ -227,10 +235,18 @@ public class Character : MonoBehaviour
 			jump = false;
 
 			audioSource.PlayOneShot(jumpAudio, 0.3f);
+			Invoke("PlayAudioNormarl", 0.2f);
 		}
 		return check;
 
 
+	}
+	private void PlayAudioNormarl()
+	{
+		if(normalAudio != null && Random.Range(0, 4) == 1 && !IsDead && !IsPause && !audioSource.isPlaying)
+		{
+			audioSource.PlayOneShot(normalAudio);
+		}
 	}
 	public void setActiveYardPath()
 	{
@@ -264,6 +280,7 @@ public class Character : MonoBehaviour
 		}
 		if (other.gameObject.tag == "Coin")
 		{
+			other.gameObject.GetComponent<BoxCollider>().enabled = false;
 			other.gameObject.GetComponent<Coin>().prepareDisapear();
 			audioSource.PlayOneShot(getCoin, 1f);
 			gameManager.intance.setCoin();
@@ -280,7 +297,10 @@ public class Character : MonoBehaviour
 		Physics.IgnoreLayerCollision(8, 10);
 		rigidbody.velocity = Vector3.zero;
 
-
+		if(deadChickenAudio != null)
+		{
+			audioSource.PlayOneShot(deadChickenAudio);
+		}
 		IsDead = true;
 		timeScale = Time.time;
 
@@ -310,7 +330,14 @@ public class Character : MonoBehaviour
 	{
 		return snapshot;
 	}
-
+	public void setAudioDead(AudioClip deadAudio)
+	{
+		deadChickenAudio = deadAudio;
+	}
+	public void setNormalAudio(AudioClip normal)
+	{
+		normalAudio = normal;
+	}
 	void FixedUpdate()
 	{
 		//	Debug.DrawLine(transform.position, transform.position + disJumpVertical * 1 / 2, Color.red);
@@ -361,14 +388,11 @@ public class Character : MonoBehaviour
 				}
 				if (preesKey)
 				{
-					//	Debug.Log("Presskey");
-
 					float timeS = (Time.time - startTimeScale) * speed2;
 					float fracJourney = timeS / journeyJump;
 					if (shrug)
 					{
 						transform.localScale = Vector3.Lerp(endJump, startJump, acc.Evaluate(fracJourney));
-						//	Debug.Log("Shrug");
 					}
 					else
 					{

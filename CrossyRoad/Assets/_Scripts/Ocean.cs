@@ -38,7 +38,7 @@ public class Ocean : MonoBehaviour {
 			while(number > 0)
 			{
 				Vector3 current = transform.position;
-				current.y = current.y + 1;
+				current.y = current.y + 2;
 				current.z += k * 8 * Mathf.Pow(-1, number);
 				GameObject beo = Instantiate(vatTroi, current, Quaternion.identity);
 				beo.GetComponent<Wood>().init(0, gameObject);
@@ -73,11 +73,10 @@ public class Ocean : MonoBehaviour {
 			other.gameObject.GetComponentInParent<Character>().TakeDamage();
 			audioFallWater.volume = 1f;
 			audioFallWater.PlayOneShot(flallRiverAudio, 1f);
-		
+			
 			Vector3 position = PracticleSystem.transform.position;
 			position.z = other.gameObject.transform.position.z;
 			PracticleSystem.transform.position = position;
-
 			PracticleSystem.SetActive(true);
 			Debug.Log("hit Player");
 		}

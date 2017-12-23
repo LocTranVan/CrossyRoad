@@ -22,7 +22,10 @@ public class SpawCar : MonoBehaviour {
 
 		spawPositionCar[indexEndCar].SetActive(true);
 
-		speed = Random.Range(30f, 50f);
+		float scores = gameManager.intance.getScore() / 5;
+
+
+		speed = Random.Range(25f + scores, 50f + scores);
 		float waitTime = Random.Range(2.0f, 4.0f);
 
 		coroutine = SpawACar(waitTime);

@@ -43,7 +43,7 @@ public class GameStateManager : MonoBehaviour
 
     //   Game Config   //
     // Set the ServerURL to a location you are hosting your game assets
-    public static readonly string ServerURL = "https://friendsmash-unity.herokuapp.com/";
+    public static readonly string ServerURL = "https://apps.facebook.com/crossyroad/";
     public static readonly int StartingLives = 3, StartingScore = 0;
     
     //   Game State   //

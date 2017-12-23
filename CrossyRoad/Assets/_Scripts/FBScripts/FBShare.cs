@@ -57,7 +57,7 @@ public static class FBShare
 		
 		FB.ShareLink(
 			new Uri(contentURL),
-			"Checkout my Friend Smash greatness!",
+			"Checkout my CrossyRoad greatness!",
 			"I just smashed " + GameStateManager.Score.ToString() + " friends! Can you beat it?",
 			null,
 			ShareCallback); 
@@ -104,6 +104,7 @@ public static class FBShare
 			Debug.LogError(result.Error);
 			return;
 		}
+		gameManager.intance.setActiveTextSuccess();
 		Debug.Log(result.RawResult);
 	}
 	private static void ShareCallback (IShareResult result)

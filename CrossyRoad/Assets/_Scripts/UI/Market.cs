@@ -6,6 +6,7 @@ public class Market : MonoBehaviour {
 	public Material blackMaterial;
 	public Material nomarlMaterial;
 	public string nameCharacter;
+	public AudioClip deadAudio, nomalAudio;
 	public bool buy;
 	public int Price;
 	// Use this for initialization
@@ -37,6 +38,18 @@ public class Market : MonoBehaviour {
 	public int getPrice()
 	{
 		return Price;
+	}
+	public AudioClip getAudio()
+	{
+		if (deadAudio != null)
+			return deadAudio;
+		return null;
+	}
+	public AudioClip getAudioNormal()
+	{
+		if (nomalAudio != null)
+			return nomalAudio;
+		return null;
 	}
 	public void setUnlock()
 	{

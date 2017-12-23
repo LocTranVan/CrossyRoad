@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Diagnostics;
 
 public class Enemy : MonoBehaviour
 {
@@ -51,12 +52,15 @@ public class Enemy : MonoBehaviour
 	private Vector3 velocityHit;
 	private Pathfinding p;
 	private GameObject YardPath;
+
+	private Stopwatch sw;
 	private void Awake()
 	{
 		p = GetComponent<Pathfinding>();
 	}
 	void Start()
 	{
+		sw = new Stopwatch();
 		journeyLength = Vector3.Distance(Vector3.zero, disJumpHorizontal);
 		journeyJump = Vector3.Distance(startJump, endJump);
 		journeyScale = Vector3.Distance(new Vector3(1, 1, 1), endScaleForWard);
@@ -86,13 +90,11 @@ public class Enemy : MonoBehaviour
 		/*
 		if (!jump)
 			HandleInput();
-
 		if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
 		{
 			setUpForShrug();
 			preesKey = !preesKey;
 		} */
-
 		if (transform.position.x >= (target.position.x + 90))
 		{
 			target2 = target.position;
@@ -101,19 +103,19 @@ public class Enemy : MonoBehaviour
 		{
 			target2 = target.position + Vector3.right * 80;
 		}
-	
+
 	}
 	public void ResetLife()
 	{
-		
 		isDead = false;
 		transform.position = target.position;
-		StopCoroutine(updatePath());
+		//StopCoroutine(updatePath());
+		StopAllCoroutines();
 		StartCoroutine(updatePath());
 		transform.localScale = new Vector3(1, 1, 1);
 		Physics.IgnoreLayerCollision(9, 12, false);
 		Physics.IgnoreLayerCollision(8, 12, false);
-		
+
 	}
 	private void setUpForShrug()
 	{
@@ -122,28 +124,25 @@ public class Enemy : MonoBehaviour
 	}
 	private void Move()
 	{
-
-
 		float disCovered = (Time.time - startTime) * speed;
 		float fracJourney = disCovered / journeyLength;
 
 		transform.position = Vector3.Lerp(startMarker, endMarker, acc.Evaluate(fracJourney));
 
-		
+
 		if (transform.position == endMarker)
 		{
-		
+			sw.Stop();
+			print(sw.ElapsedMilliseconds);
 			jump = false;
 			if (!finding)
 			{
 				//PathRequestManager.RequestPath(transform.position, target2, OnPathFound);
-			//	StartCoroutine(updatePath());
+				//	StartCoroutine(updatePath());
 				finding = true;
-		
+
 			}
 		}
-
-
 	}
 	private bool checkCounldForJump(Vector3 startMark, Vector3 endMark)
 	{
@@ -174,7 +173,7 @@ public class Enemy : MonoBehaviour
 	}
 
 	private void OnTriggerEnter(Collider other)
-	{  
+	{
 		if (other.gameObject.tag == "Cars")
 		{
 			Vector3 position = transform.position;
@@ -183,10 +182,10 @@ public class Enemy : MonoBehaviour
 
 			velocityHit = new Vector3(0, 0, -carHit.transform.position.z + position.z);
 			TakeDamage();
-			
+
 		}
-		if (other.gameObject.tag == "Ocean")
-			Debug.Log("ocean");
+		//if (other.gameObject.tag == "Ocean")
+			//Debug.Log("ocean");
 	}
 	public void TakeDamage()
 	{
@@ -198,10 +197,10 @@ public class Enemy : MonoBehaviour
 		Physics.IgnoreLayerCollision(9, 12);
 		Physics.IgnoreLayerCollision(8, 12);
 		rigidbody.velocity = Vector3.zero;
-	
+
 
 		IsDead = true;
-		timeScale = Time.time;
+		//timeScale = 0;
 		StopCoroutine(updatePath());
 	}
 	public void OnDrawGizmos()
@@ -228,13 +227,10 @@ public class Enemy : MonoBehaviour
 	{
 		while (true)
 		{
+			yield return new WaitForSeconds(1f);
 			PathRequestManager.RequestPath(transform.position, target2, OnPathFound);
-
-			yield return new WaitForSeconds(.3f);
-			if (isDead)
-				yield break;
 		}
-	
+
 	}
 	public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
 	{
@@ -250,8 +246,6 @@ public class Enemy : MonoBehaviour
 					StartCoroutine("FollowPath");
 				}
 			}
-			
-			
 		}
 	}
 	IEnumerator FollowPath()
@@ -259,7 +253,7 @@ public class Enemy : MonoBehaviour
 		Vector3 currentWaypoint = path[0];
 		//Debug.Log(path.Length);
 		//Vector3 currentWaypoint = (path.Length > 1) ? path[1] : path[0];
-		
+
 		//while (true) {
 		if (transform.position == currentWaypoint)
 		{
@@ -278,7 +272,7 @@ public class Enemy : MonoBehaviour
 		{
 			//Animating(0, direction.x, false);
 			Fake();
-			if(direction.x > 0)
+			if (direction.x > 0)
 			{
 				setUpForJump(new Vector3(0, -90, 0));
 				endMarker = startMarker + disJumpVertical;
@@ -294,7 +288,7 @@ public class Enemy : MonoBehaviour
 		else if (Mathf.Abs(direction.x) < Mathf.Abs(direction.z))
 		{
 			Fake();
-			if(direction.z < 0)
+			if (direction.z < 0)
 			{
 				setUpForJump(new Vector3(0, 0, 0));
 				endMarker = startMarker - disJumpHorizontal;
@@ -314,6 +308,8 @@ public class Enemy : MonoBehaviour
 
 
 		finding = false;
+		//Stopwatch sw = new Stopwatch();
+		sw.Start();
 		//	transform.position = Vector3.MoveTowards(transform.position,currentWaypoint,speed * Time.deltaTime);
 		yield return null;
 
@@ -351,12 +347,12 @@ public class Enemy : MonoBehaviour
 		}
 		else
 		{
-	
+
 			if (jump)
 			{
 				Move();
 				rigidbody.isKinematic = true;
-			
+
 
 			}
 			else
@@ -387,5 +383,3 @@ public class Enemy : MonoBehaviour
 	}
 
 }
-
-

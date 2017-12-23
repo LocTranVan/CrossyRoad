@@ -33,9 +33,14 @@ public class GameMenu : MonoBehaviour
 
 	public GameObject panelPersonInfo;
 	public GameObject panelAchivemets;
+	public GameObject txtTextSuccess;
+	public GameObject testX;
 	private bool share, score;
-    #region Built-In
-    void Awake()
+
+	public GameObject[] PanelUnActive, PanelActive;
+
+	#region Built-In
+	void Awake()
     {
         // Initialize FB SDK
         if (!FB.IsInitialized)
@@ -95,7 +100,7 @@ public class GameMenu : MonoBehaviour
     #region FB Init
     private void InitCallback()
     {
-        Debug.Log("InitCallback");
+        //Debug.Log("InitCallback");
 
         // App Launch events should be logged on app launch & app resume
         // See more: https://developers.facebook.com/docs/app-events/unity#quickstart
@@ -105,27 +110,56 @@ public class GameMenu : MonoBehaviour
 		if (FB.IsLoggedIn) 
         {
 
-            Debug.Log("Already logged in");
-            OnLoginComplete();
-        }
-    }
-    #endregion
+			//   Debug.Log("Already logged in");
+			// OnLoginComplete();
 
-    #region Login
-    public void OnLoginClick ()
+		}
+    }
+	#endregion
+
+	#region Login
+	public void OnLoginClick ()
     {
-        Debug.Log("OnLoginClick");
-
-
-		// Call Facebook Login for Read permissions of 'public_profile', 'user_friends', and 'email'
-		//if(FBLogin)
 		FBLogin.PromptForLogin(OnLoginComplete);
-		//FB.LogInWithPublishPermissions(new List<string>() { "publish_actions" }, Share);
-	
-		score = true;
-		share = false;
     }
-
+	public void LeaderBoad()
+	{
+		if (!FB.IsInitialized)
+		{
+			FB.Init(InitCallback);
+		}
+		if (FB.IsLoggedIn)
+		{
+			Debug.Log("Haved login");
+			PanelActive[1].SetActive(false);
+			PanelActive[0].SetActive(true);
+			
+			FBGraph.GetPlayerInfo();
+			FBGraph.GetFriends();
+			FBGraph.GetInvitableFriends();
+			FBGraph.GetScores();
+		}
+		else
+		{
+			setActivePanel();
+			setUnActivePanel();
+			//FBLogin.PromptForLogin();
+		}
+	}
+	public void setActivePanel()
+	{
+		foreach(GameObject ob in PanelActive)
+		{
+			ob.SetActive(true);
+		}
+	}
+	public void setUnActivePanel()
+	{
+		foreach (GameObject ob in PanelUnActive)
+		{
+			ob.SetActive(false);
+		}
+	}
 	public void Share(IResult result)
 	{
 		if (result.Error != null)
@@ -155,8 +189,16 @@ public class GameMenu : MonoBehaviour
 	}
 	public void OnAchivementCom()
 	{
-		panelAchivemets.SetActive(true);
-		FBAchievements.ViewAchievement();
+		if (FB.IsLoggedIn)
+		{
+			panelAchivemets.SetActive(true);
+			FBAchievements.ViewAchievement();
+		}
+		else
+		{
+			setActivePanel();
+			setUnActivePanel();
+		}
 	}
 	public void ViewAchivements()
 	{
@@ -174,6 +216,22 @@ public class GameMenu : MonoBehaviour
 			FB.LogInWithPublishPermissions(new List<string>() { "publish_actions" }, Achivements);
 		}
 	}
+	public void ShareLink()
+	{
+		if (!FB.IsInitialized)
+		{
+			FB.Init(InitCallback);
+		}
+		if (FB.IsLoggedIn)
+		{
+			FBShare.ShareBrag();
+		}
+		else
+		{
+			FBLogin.PromptForLogin();
+			ShareLink();
+		}
+	}
 	public void Achivements(IResult result)
 	{
 		if (result.Error != null)
@@ -183,34 +241,23 @@ public class GameMenu : MonoBehaviour
 		}
 		Debug.Log(result.RawResult);
 
-		//FBAchievements.GiveAchievement("");
-		FBAchievements.DeleteAchievement("");
+		FBAchievements.GiveAchievement("");
+		//FBAchievements.DeleteAchievement("");
 	}
     private void OnLoginComplete()
     {
-        Debug.Log("OnLoginComplete");
-
         if (!FB.IsLoggedIn)
         {
- 
             return;
-        }
-
-		// Show loading animations
-
-
-		// Begin querying the Graph API for Facebook data
-	
-			FBGraph.GetPlayerInfo();
-			FBGraph.GetFriends();
-			FBGraph.GetInvitableFriends();
-			FBGraph.GetScores();
-		
-
-		//FB.LogInWithPublishPermissions(new List<string>() { "publish_actions" }, Share);
-		//ShareImage();
-		//FBShare.ShareBrag();
-		//FBShare.PostScore();
+		}
+		else
+		{
+			PanelUnActive[0].SetActive(false);
+		}
+		FBGraph.GetPlayerInfo();
+		FBGraph.GetFriends();
+		FBGraph.GetInvitableFriends();
+		FBGraph.GetScores();
 	}
 	public void ShareImage()
 	{
@@ -218,9 +265,42 @@ public class GameMenu : MonoBehaviour
 		{
 			FB.Init(InitCallback);
 		}
-
-		FB.LogInWithPublishPermissions(new List<string>() { "publish_actions" }, Share);
+		if (FBLogin.HavePublishActions)
+		{
+			FBShare.TakeScreenshot();
+		}
+		else
+		{
+			setActivePanel();
+			setUnActivePanel();
+			//FB.LogInWithPublishPermissions(new List<string>() { "publish_actions" }, Share);
+		}
 	
+	}
+	public void test()
+	{
+		
+		Text txt = testX.GetComponent<Text>();
+		if (!FB.IsInitialized)
+		{
+			txt.text = "not init";
+			FB.Init(InitCallback);
+		}
+		if (FB.IsLoggedIn)
+		{
+
+			txt.text = "IsLoggedIn";
+		}
+		else if(FB.IsInitialized)
+		{
+			txt.text = "Not LoggedIn";
+		}
+	
+	
+	}
+	public void OnLoginWithPublicAticon()
+	{
+		FB.LogInWithPublishPermissions(new List<string>() { "publish_actions" }, Share);
 	}
 	private void OnShare()
 	{
@@ -270,7 +350,6 @@ public class GameMenu : MonoBehaviour
 
 			UIManager panelAll = GetComponent<UIManager>();
 			panelAll.setActivePanel();
-
 			PersonLogin personLogin = panelPersonInfo.GetComponent<PersonLogin>();
 			if (GameStateManager.UserTexture != null && !string.IsNullOrEmpty(GameStateManager.Username))
 			{
@@ -314,11 +393,6 @@ public class GameMenu : MonoBehaviour
 
 					LBelement.transform.SetParent(panelSocres.transform, false);
 				}
-			
-				// Scroll to top
-			//	LeaderboardScrollRect.verticalNormalizedPosition = 1f;
-
-				//Debug.Log(GameStateManager.Friends.Count + " " + scores.Count);
 			}
 		}
 		
