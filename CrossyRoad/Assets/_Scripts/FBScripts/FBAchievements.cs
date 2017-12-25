@@ -7,7 +7,7 @@ public static class FBAchievements{
 
 	public static void GiveAchievement(string achievementUrl)
 	{
-		achievementUrl = "https://loctranvan-89.herokuapp.com/index.htm";
+		//achievementUrl = "https://loctranvan-89.herokuapp.com/index.htm";
 		//achievementUrl = "https://achivements2.herokuapp.com/index.htm";
 		//achievementUrl = "https://achivements3.herokuapp.com/index.htm";
 		//achievementUrl = "https://achivements4.herokuapp.com/index.htm";

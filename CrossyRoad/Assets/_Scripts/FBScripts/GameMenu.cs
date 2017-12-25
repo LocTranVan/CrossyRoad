@@ -36,7 +36,7 @@ public class GameMenu : MonoBehaviour
 	public GameObject txtTextSuccess;
 	public GameObject testX;
 	private bool share, score;
-
+	public GameObject Loading;
 	public GameObject[] PanelUnActive, PanelActive;
 
 	#region Built-In
@@ -120,7 +120,8 @@ public class GameMenu : MonoBehaviour
 	#region Login
 	public void OnLoginClick ()
     {
-		FBLogin.PromptForLogin(OnLoginComplete);
+		if(!FB.IsLoggedIn)
+			FBLogin.PromptForLogin(OnLoginComplete);
     }
 	public void LeaderBoad()
 	{
@@ -139,7 +140,7 @@ public class GameMenu : MonoBehaviour
 			FBGraph.GetInvitableFriends();
 			FBGraph.GetScores();
 		}
-		else
+		else if(FB.IsInitialized)
 		{
 			setActivePanel();
 			setUnActivePanel();
@@ -228,9 +229,15 @@ public class GameMenu : MonoBehaviour
 		}
 		else
 		{
-			FBLogin.PromptForLogin();
-			ShareLink();
+			FBLogin.PromptForLogin(callBaclkShareLink);
+			//ShareLink();
 		}
+	}
+	public void callBaclkShareLink()
+	{
+		if (!FB.IsLoggedIn)
+			return;
+		FBShare.ShareBrag();
 	}
 	public void Achivements(IResult result)
 	{
@@ -277,30 +284,14 @@ public class GameMenu : MonoBehaviour
 		}
 	
 	}
-	public void test()
-	{
-		
-		Text txt = testX.GetComponent<Text>();
-		if (!FB.IsInitialized)
-		{
-			txt.text = "not init";
-			FB.Init(InitCallback);
-		}
-		if (FB.IsLoggedIn)
-		{
 
-			txt.text = "IsLoggedIn";
-		}
-		else if(FB.IsInitialized)
-		{
-			txt.text = "Not LoggedIn";
-		}
-	
-	
-	}
 	public void OnLoginWithPublicAticon()
 	{
-		FB.LogInWithPublishPermissions(new List<string>() { "publish_actions" }, Share);
+		if (FBLogin.HavePublishActions)
+		{
+			FBShare.TakeScreenshot();
+		}else 
+			FB.LogInWithPublishPermissions(new List<string>() { "publish_actions" }, Share);
 	}
 	private void OnShare()
 	{

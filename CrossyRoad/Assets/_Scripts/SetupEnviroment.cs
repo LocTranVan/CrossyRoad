@@ -7,7 +7,7 @@ public class SetupEnviroment : MonoBehaviour {
 	public GameObject[] strips;
 	public Transform camera, Player;
 	public GameObject Eagle;
-	public GameObject Introl;
+	public GameObject Introl, IntrolPC;
 	//private GameObject[] allStrips;
 	private List<GameObject> allStrips;
 	public float offset;
@@ -27,7 +27,7 @@ public class SetupEnviroment : MonoBehaviour {
 	// Use this for initialization
 	private void Awake()
 	{
-		
+		//PlayerPrefs.DeleteAll();
 	}
 	void Start () {
 		allStrips = new List<GameObject>();
@@ -36,7 +36,11 @@ public class SetupEnviroment : MonoBehaviour {
 			Introduction();
 		else
 		{
+#if UNITY_ANDROID
 			Introl.SetActive(false);
+#else
+			IntrolPC.SetActive(false);
+#endif
 			int k = 0;
 			do
 			{
@@ -60,7 +64,11 @@ public class SetupEnviroment : MonoBehaviour {
 	}
 	private void Introduction()
 	{
-		Introl.SetActive(true);
+#if UNITY_ANDROID
+			Introl.SetActive(true);
+#else
+		IntrolPC.SetActive(true);
+#endif
 		int k = 0;
 		do
 		{
@@ -105,7 +113,8 @@ public class SetupEnviroment : MonoBehaviour {
 		else
 			startCurrentStrip = ONEWAYSTREET;
 
-		int currentStrip = Random.Range(startCurrentStrip, OCEAN + 1);
+		//	int currentStrip = Random.Range(startCurrentStrip, OCEAN + 1);
+		int currentStrip = Random.Range(2, 4);
 		switch (currentStrip)
 		{
 			case GRASS:

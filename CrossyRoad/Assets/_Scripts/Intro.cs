@@ -11,28 +11,46 @@ public class Intro : MonoBehaviour {
 	public LayerMask Tree;
 	private GameObject InGame;
 	private Animator animator;
+
+	public Sprite[] allImages;
 	// Use this for initialization
-	
+	private enum gameState
+	{
+		left, right, top
+	}
+
+	private gameState stateCurrent = gameState.top,
+		statePrevious = gameState.top;
 	void Start () {
 		image = GetComponent<Image>();
 		Player = GameObject.Find("Player");
 		animator = GetComponent<Animator>();
 		StartCoroutine(Introldution(1f));
+
+		
 		//moveLeft();
 	}
 	public void moveLeft()
 	{
+#if UNITY_ANDROID
 		animator.SetFloat("Speed", 1);
 		Debug.Log("move left");
 		DOTweenAnimation dtAnimation = GetComponent<DOTweenAnimation>();
 		dtAnimation.DORestartById("MoveLeft");
+#else
+		image.sprite = allImages[2];
+#endif
 	}
 	public void moveRight()
 	{
+#if UNITY_ANDROID
 		animator.SetFloat("Speed", 1);
 		Debug.Log("move right");
 		DOTweenAnimation dtAnimation = GetComponent<DOTweenAnimation>();
 		dtAnimation.DORestartById("MoveRight");
+#else
+		image.sprite = allImages[1];
+#endif
 	}
 	private IEnumerator Introldution(float waitTime)
 	{
@@ -69,15 +87,35 @@ public class Intro : MonoBehaviour {
 
 		postion += Vector3.up * 3;
 		if (!Physics.Linecast(postion, postion + Vector3.right * 9, Tree)) {
+#if UNITY_ANDROID
 			animator.SetFloat("Speed", 0);
+		
+#else
+			image.sprite = allImages[0];
+			if(stateCurrent != gameState.top)
+				statePrevious = stateCurrent;
+
+			stateCurrent = gameState.top;
+#endif
 			return;
 		}
 
 		if (!Physics.Linecast(postion, postion + Vector3.forward * 9, Tree))
+		{
 			moveLeft();
+			if (stateCurrent != gameState.left)
+				statePrevious = stateCurrent;
+
+			stateCurrent = gameState.left;
+
+		}
 		else
 		{
 			moveRight();
+			if (stateCurrent != gameState.right)
+				statePrevious = stateCurrent;
+
+			stateCurrent = gameState.right;
 		}
 		
 	}

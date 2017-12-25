@@ -5,7 +5,8 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour {
 	private AudioSource audioSource;
 	public AudioClip btTapIn, btTapOut, btTapWrong;
-	public AudioClip btChoosePlayer;
+	public AudioClip btChoosePlayer, achivements;
+	public AudioClip casino, takePicture;
 	public static SoundManager intance;
 	private AudioClip nextSounds;
 	// Use this for initialization
@@ -16,7 +17,18 @@ public class SoundManager : MonoBehaviour {
 
 		audioSource = GetComponent<AudioSource>();
 	}
-
+	public void soudUnlockCharacter()
+	{
+		audioSource.PlayOneShot(casino);
+	}
+	public void soudTakePicture()
+	{
+		audioSource.PlayOneShot(takePicture);
+	}
+	public void soudAchivements()
+	{
+		audioSource.PlayOneShot(achivements);
+	}
 	public void soudBTap()
 	{
 		audioSource.PlayOneShot(btTapIn);

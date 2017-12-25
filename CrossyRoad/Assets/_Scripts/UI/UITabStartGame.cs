@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 public class UITabStartGame : MonoBehaviour {
-	public GameObject btTap;
+	public GameObject btTap, btArowUP;
 	public GameObject ImageCrossy;
 	public GameObject ButtonChoosePlayer, ButtonChossePet, ButtonMore;
 	private Vector3 currentImage;
@@ -15,7 +15,13 @@ public class UITabStartGame : MonoBehaviour {
 	}	
 	private void OnEnable()
 	{
+#if UNITY_ANDROID
 		btTap.SetActive(true);
+#else
+		if(btArowUP != null)
+		btArowUP.SetActive(true);
+#endif
+
 		Button bt = GetComponent<Button>();
 		bt.enabled = true;
 		ButtonChoosePlayer.SetActive(true);
@@ -26,12 +32,12 @@ public class UITabStartGame : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		
 	}
 	public void StartGame()
 	{
 		Debug.Log("Start Game");
 		btTap.SetActive(false);
+		btArowUP.SetActive(false);
 		ImageCrossy.GetComponent<DOTweenAnimation>().DORestart();
 		ButtonChoosePlayer.SetActive(false);
 		ButtonMore.SetActive(false);

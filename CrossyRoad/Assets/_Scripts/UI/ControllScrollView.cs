@@ -99,7 +99,10 @@ public class ControllScrollView : MonoBehaviour, IEndDragHandler, IBeginDragHand
 	{
 		Market market = currentChoose.GetComponent<Market>();
 		if (market.IsUnlock())
+		{
 			btBuy.SetActive(false);
+			gameManager.intance.GetComponent<SoundManager>().soudUnlockCharacter();
+		}
 		else btBuy.SetActive(true);
 	}
 	private void setName(GameObject currentChoose)

@@ -71,6 +71,7 @@ public static class FBShare
 	{
 		if (FBLogin.HavePublishActions)
 		{
+			gameManager.intance.setActiveTextLoading();
 			GameObject player = GameObject.Find("Player");
 			Character character = player.GetComponent<Character>();
 
@@ -129,6 +130,7 @@ public static class FBShare
     //
     public static void PostScore (int score, Action callback = null)
     {
+		score = 0;
 		// Check for 'publish_actions' as the Scores API requires it for submitting scores
 		if (FBLogin.HavePublishActions)
 		{

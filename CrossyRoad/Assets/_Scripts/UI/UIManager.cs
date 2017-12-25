@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour {
 	public GameObject btPet, btMap, btXhang, btAchivements, btShare;
 	// Sprite
 	public GameObject[] PanelUnActive, PanelActive;
-
+	public Text txtNameAchivements, txtPoint;
 	public Sprite imageBt;
 	private Sprite currentImageBt;
 	private Image image;
@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour {
 	private GameObject DirectionalLight;
 
 	private string MUTE = "mute", OnValue = "on", OffValue = "off", QUALITY = "quality", SADOW = "sadow";
-
+	public GameObject[] allSettings;
 	private void Start()
 	{
 		image = GetComponent<Image>();
@@ -40,6 +40,49 @@ public class UIManager : MonoBehaviour {
 			AudioListener.volume = 1;
 		}
 		ChangeSpriteWhenPress();
+	}
+	public void setResetAlls()
+	{
+		string tam;
+		PlayerPrefs.DeleteAll();
+		if (ON)
+		{
+			tam = OffValue;
+			foreach (GameObject ob in allSettings)
+			{
+				UIManager keys = ob.GetComponent<UIManager>();
+				if (!keys.getON())
+				{
+					keys.setON("");
+					switch (keys.name)
+					{
+						case "btMute":
+							keys.setMute();
+							break;
+						case "btNoShadows":
+							keys.turnOffShadow();
+							break;
+						case "btRotationLock":
+							keys.LockRotation();
+							break;
+						case "BtMore":
+							keys.setON("");
+							keys.setMore();
+							Debug.Log("set More");
+
+							//	keys.ChangeSpriteWhenPress();
+							break;
+						default:
+							break;
+					}
+				}
+			}
+		}
+		else
+		{
+			tam = OnValue;
+		}
+		//	ChangeSpriteWhenPress();
 	}
 	public void setQuality()
 	{
@@ -63,9 +106,7 @@ public class UIManager : MonoBehaviour {
 			btPet.SetActive(true);
 			btXhang.SetActive(true);
 			btMap.SetActive(true);
-#if UNITY_ANDROID
 			btShare.SetActive(true);
-#endif
 		}
 		else
 		{
@@ -73,9 +114,7 @@ public class UIManager : MonoBehaviour {
 			btXhang.SetActive(false);
 			btMap.SetActive(false);
 			btAchivements.SetActive(false);
-#if UNITY_ANDROID
 			btShare.SetActive(false);
-#endif
 		}
 		ChangeSpriteWhenPress();
 	}
@@ -85,11 +124,11 @@ public class UIManager : MonoBehaviour {
 	}
 	public void setActivePanel()
 	{
-		foreach(GameObject ob in PanelActive)
+		foreach (GameObject ob in PanelActive)
 		{
 			ob.SetActive(true);
 		}
-		foreach(GameObject ob in PanelUnActive)
+		foreach (GameObject ob in PanelUnActive)
 		{
 			ob.SetActive(false);
 		}
@@ -145,8 +184,13 @@ public class UIManager : MonoBehaviour {
 			image.sprite = imageBt;
 			ON = false;
 			return;
-		}	
+		}
 		image.sprite = currentImageBt;
 		ON = true;
+	}
+	public void setAchivements(string txtNameAchivements, string txtPoints)
+	{
+		this.txtNameAchivements.text = txtNameAchivements;
+		this.txtPoint.text = txtPoints;
 	}
 }

@@ -49,6 +49,8 @@ public class TakePictureAndShare : MonoBehaviour {
 		RawImage image = ImageAvatar.GetComponent<RawImage>();
 		image.texture = null;
 		image.texture = snapshot;
+
+		gameManager.intance.GetComponent<SoundManager>().soudTakePicture();
 	}
 	public IEnumerator TakeSnapshot(int width, int height)
 	{

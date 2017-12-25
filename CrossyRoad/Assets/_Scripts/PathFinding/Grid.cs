@@ -79,7 +79,7 @@ public class Grid : MonoBehaviour {
 	}
 	public void test(Vector3 startPos)
 	{
-		double eps = 1;
+		double eps = 2;
 		for (int x = 0; x < gridSizeX; x++)
 		{
 			for (int y = 0; y < gridSizeY; y++)
@@ -107,7 +107,6 @@ public class Grid : MonoBehaviour {
 
 							float tai = dai / 30   + tDelay;
 							float tCar = dCar / speedCar ;
-							print("tai" + tai + "tCar" +tCar);
 							if ( Mathf.Abs(tai - tCar) < eps)
 								grid[x, k].walkable = false;
 							else

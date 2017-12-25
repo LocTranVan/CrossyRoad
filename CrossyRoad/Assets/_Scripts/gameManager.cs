@@ -25,9 +25,9 @@ public class gameManager : MonoBehaviour {
 	public Material materialSnowFlower, materialNormal;
 
 	public GameObject panelAchivements;
-	private int _score, _coins;
+	private int _score, _coins = 30;
 	public GameObject[] settings;
-	public GameObject txtNamePost;
+	public GameObject txtNamePost, txtLoading;
 	private bool reloadGame;
 	private enum Maps
 	{
@@ -48,7 +48,8 @@ public class gameManager : MonoBehaviour {
 	//	PlayerPrefs.DeleteAll();
 		highScore = PlayerPrefs.GetInt("highscore");
 		Debug.Log(highScore);
-
+	    _coins = PlayerPrefs.GetInt("Coin");
+		PanelInGame.GetComponent<ScoreUI>().setNumberCoinAndChangeSprite(_coins);
 	}
 
 	public void IntancePet()
@@ -107,10 +108,19 @@ public class gameManager : MonoBehaviour {
 	}
 	public void setActiveTextSuccess()
 	{
+		txtLoading.SetActive(false);
 		txtNamePost.SetActive(true);
-		DOTweenAnimation dot = txtNamePost.GetComponent<DOTweenAnimation>();
+		DOTweenAnimation dot = txtNamePost.GetComponentInChildren<DOTweenAnimation>();
 		dot.DORestartById("text");
 	}
+	public void setActiveTextLoading()
+	{
+		txtLoading.SetActive(true);
+	//	DOTweenAnimation dot = txtNamePost.GetComponentInChildren<DOTweenAnimation>();
+		//dot.DORestartById("text");
+
+	}
+	
 	public void RedrawPanelTopScore()
 	{
 		PanelTopScore.SetActive(false);
@@ -227,8 +237,6 @@ public class gameManager : MonoBehaviour {
 		else	
 			map = Maps.winter;
 		Play();
-
-
 	}
 	public GameObject getCharacter()
 	{
@@ -271,19 +279,51 @@ public class gameManager : MonoBehaviour {
 	public void setScore()
 	{
 		_score ++;
-		if (_score == 10 && GameStateManager.HighScore <= 10 &&FBLogin.HavePublishActions)
+		if (FBLogin.HavePublishActions)
 		{
-			DOTweenAnimation tl = panelAchivements.GetComponent<DOTweenAnimation>();
-			tl.DORestartById("Move");
+			setAchivements(_score);
 		}
 		if (_score > highScore)
 			PlayerPrefs.SetInt("highscore", _score);
 		PanelInGame.GetComponent<ScoreUI>().setScoreAndChangeSprite(_score);
 	}
+	public void setAchivements(int score)
+	{
+		DOTweenAnimation tl = panelAchivements.GetComponent<DOTweenAnimation>();
+		//tl.DORestartById("Move");
+		switch (score)
+		{
+			case 10:
+				if (GameStateManager.HighScore <= 10)
+				{
+					UIManager uIManager = panelAchivements.GetComponent<UIManager>();
+					uIManager.setAchivements("Achivement 1", "+ 10 Coins");
+					tl.DORestartById("Move");
+					_coins += 9;
+					setCoin();
+					GetComponent<SoundManager>().soudAchivements();
+					FBAchievements.GiveAchievement("https://loctranvan-89.herokuapp.com/index.htm");
+				}
+				break;
+			case 20:
+				if (GameStateManager.HighScore <= 20)
+				{
+					UIManager uIManager = panelAchivements.GetComponent<UIManager>();
+					uIManager.setAchivements("Achivement 2", "+ 20 Coins");
+					_coins += 19;
+					setCoin();
+					tl.DORestartById("Move");
+					GetComponent<SoundManager>().soudAchivements();
+					FBAchievements.GiveAchievement("https://achivements2.herokuapp.com/index.htm");
+				}
+				break;
+		}
+	}
 	public void setCoin()
 	{
 		Debug.Log("Collect Coin"+ _coins);
 		_coins ++;
+		PlayerPrefs.SetInt("Coin", _coins);
 		PanelInGame.GetComponent<ScoreUI>().setNumberCoinAndChangeSprite(_coins);
 	}
 	public int getScore()

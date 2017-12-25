@@ -8,7 +8,7 @@ public class Character : MonoBehaviour
 	// Use this for initialization
 	public float speed, speed2, weightPlayer;
 	public GameObject player;
-	public LayerMask Tree, Cars;
+	public LayerMask Tree, Cars, Ground, Wood, Beo;
 	private float startTime, startTimeScale;
 
 	private bool jump = false, couldJump = true;
@@ -91,8 +91,14 @@ public class Character : MonoBehaviour
 
 	void Update()
 	{
-		if (!jump)
+		if (!jump && (Physics.Linecast(transform.position + new Vector3(0, 1, 0), transform.position, Ground)
+			|| (Physics.Linecast(transform.position + new Vector3(0, 1, 0), transform.position, Wood)))
+			|| (Physics.Linecast(transform.position + new Vector3(0, 1, 0), transform.position, Beo)))
 			HandleInput();
+
+		if (Physics.Linecast(transform.position + new Vector3(0, 1, 0), transform.position, Ground))
+			Debug.Log("Ground");
+			//Debug.DrawLine(transform.position + new Vector3 (0, 1, 0), transform.position, Color.red);
 	}
 
 	private void HandleInput()

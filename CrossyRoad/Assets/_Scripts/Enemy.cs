@@ -132,8 +132,6 @@ public class Enemy : MonoBehaviour
 
 		if (transform.position == endMarker)
 		{
-			sw.Stop();
-			print(sw.ElapsedMilliseconds);
 			jump = false;
 			if (!finding)
 			{
